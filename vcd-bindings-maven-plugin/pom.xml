@@ -11,15 +11,10 @@
     <packaging>maven-plugin</packaging>
     <parent>
         <groupId>com.vmware.vcloud</groupId>
-        <artifactId>api-schemas-parent</artifactId>
-        <version>1.0.0</version>
-        <relativePath>../../pom.xml</relativePath>
+        <artifactId>api-tooling-parent</artifactId>
+        <version>0.9.0</version>
     </parent>
     <name>binding-plugin Maven Mojo</name>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -35,8 +30,7 @@
         </dependency>
         <dependency>
             <groupId>com.vmware.vcloud</groupId>
-            <artifactId>bindings-generator</artifactId>
-            <version>1.0.0</version>
+            <artifactId>vcd-bindings-generator</artifactId>
         </dependency>
     </dependencies>
 

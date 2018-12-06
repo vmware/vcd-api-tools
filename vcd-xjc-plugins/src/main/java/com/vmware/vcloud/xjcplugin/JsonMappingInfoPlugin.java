@@ -53,7 +53,6 @@ import org.jvnet.jaxb2_commons.util.CustomizationUtils;
  * </pre>
  *
  *
- * </p>
  * <p>
  * You also have to add the following boilerplate to the beginning of the XSD:
  *

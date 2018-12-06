@@ -13,12 +13,11 @@ import java.util.Set;
 import com.vmware.vcloud.api.annotation.Supported;
 
 /**
- * <p>
- * Enum with supported API version.
- * <p>
+ * Enum with supported API version. <p>
+ *
  * <b>IMPORTANT!</b> Versions are compared using the natural enum order, so keep them in ascending
  * order!
- * </p>
+ *
  * @since 1.5.0
  */
 public enum ApiVersion {
@@ -242,7 +241,7 @@ public enum ApiVersion {
      * Checks if the version is in the range supported by <b>s</b>.
      *
      * @param s the supported range
-     * @return {@code true} if s.addedIn <= this < s.removedIn or if s is {@code null}
+     * @return {@code true} if s.addedIn &lt;= this &lt; s.removedIn or if s is {@code null}
      */
     public boolean isInRange(Supported s) {
         return s == null || isInRange(fromValue(s.addedIn()), fromValue(s.removedIn()));
@@ -251,9 +250,9 @@ public enum ApiVersion {
     /**
      * Checks if the current version is in range [min..max).
      *
-     * @param min
-     * @param max
-     * @return {@code true} if min <= this < max
+     * @param min the min version for range check
+     * @param max the max version for range check
+     * @return {@code true} if min &lt;= this &lt; max
      */
     public boolean isInRange(final ApiVersion min, final ApiVersion max) {
         if (max == VERSION_MAX) {

@@ -57,22 +57,20 @@ import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
  * </pre>
  *
  * If <i>default-version</i> is not present "1.5" will be assumed.
- * </p>
  * <p>
  * To specify annotation values for specific element, you need to add the
  * following to the XSD:
  *
  * <pre>
- * &lt;xs:appinfo>
- *     &lt;meta:version added-in="1.5" removed-in="2.0"/>
- * &lt;/xs:appinfo>
+ * &lt;xs:appinfo&gt;
+ *     &lt;meta:version added-in="1.5" removed-in="2.0"/&gt;
+ * &lt;/xs:appinfo&gt;
  * </pre>
  *
  * If {@code added-in} is missing, the {@code default-version} will be used.<BR>
  * If {@code removed-in} is present, the usages will also be marked as deprecated.<BR>
  * If {@code removed-in} is missing, it won't be included in the generated
  * annotation either.
- * </p>
  * <p>
  * You also have to add the following boilerplate to the beginning of the XSD:
  *
@@ -82,20 +80,17 @@ import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
  *   jaxb:verion="2.0"
  *   jaxb:extensionBindingPrefixes="meta"
  * </pre>
- * </p>
  * <p>
  * The plug-in also supports the content-type annotation:
  * <pre>
- * &lt;xs:appinfo>
- *     &lt;meta:content-type>application/vnd.vmware.vcloud.vApp&lt;/meta:content-type>
- * &lt;/xs:appinfo>
+ * &lt;xs:appinfo&gt;
+ *     &lt;meta:content-type&gt;application/vnd.vmware.vcloud.vApp&lt;/meta:content-type&gt;
+ * &lt;/xs:appinfo&gt;
  * </pre>
  * which adds the {@link ContentType} annotation to the generated java class.
- * </p>
  * <p>
  * Lastly, the plugin will try to include the name of the source {@code .xsd} file
  * and the approximate line and column numbers in the class javadoc
- * </p>
  */
 public class RestApiVersionsPlugin extends Plugin {
 

@@ -13,24 +13,28 @@ import java.lang.annotation.Target;
 
 /**
  * This annotation denotes when the specific feature was introduced to the
- * REST-API and if and when it was removed. This annotation is added
- * automatically to the JAXB generated classes.
- * <p>
- * The feature is present starting from {@link #addedIn()} version inclusive, to
- * {@link #removedIn()} exclusive.
- * </p>
+ * REST-API and if and when it was removed. <p>
+ *
+ * A feature is present starting from {@link #addedIn()} version inclusive, to
+ * {@link #removedIn()} exclusive. <p>
+ *
+ * This annotation is added automatically to the JAXB generated classes.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
 public @interface Supported {
 
     /**
-     * Version in which the feature was added.
+     * Version in which the feature was added, inclusive.
+     * 
+     * @return a version string
      */
     String addedIn();
 
     /**
-     * Version in which the feature was removed.
+     * Version in which the feature was removed, exclusive.
+     * 
+     * @return a version string
      */
     String removedIn() default "";
 }

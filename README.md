@@ -1,32 +1,65 @@
+# vCloud Director API Tools #
+The projects in this folder are tools for working with the vCloud Director APIs.
 
+## Bindings Generator ##
+A command line tool for generating Typescript bindings for vCD's XML-based REST API is available in `bindings-generator`.  The bindings generator can be executed like any typical application.  For instance, execution through Maven:
 
-# vcd-api-tools
+`mvn exec:java -Dexec.mainClass="com.vmware.vcloud.bindings.generator.BindingsGenerator" -Dexec.args="--help"`
 
-## Overview
+will output the usage info:
 
-## Try it out
+```
+Usage: BindingsGenerator [options]
+  Options:
+    -h, --help
+      Prints this help message
+    -o, --outputDir
+      A directory to output custom files to.  If none is specified, the output
+      is streamed to standard out.
+    -x, --overwrite
+      If the specified outputDir is not empty the generator will halt.  Adding
+      this flag will DELETE the content of outputDir and force the generator
+      to continue
+      Default: false
+  * -p, --packages
+      One or more packages to scan for schema classes.
+```
 
-### Prerequisites
-
-* Prereq 1
-* Prereq 2
-* Prereq 3
-
-### Build & Run
-
-1. Step 1
-2. Step 2
-3. Step 3
-
-## Documentation
-
-## Releases & Major Branches
-
-## Contributing
-
-The vcd-api-tools project team welcomes contributions from the community. If you wish to contribute code and you have not
-signed our contributor license agreement (CLA), our bot will update the issue when you open a Pull Request. For any
-questions about the CLA process, please refer to our [FAQ](https://cla.vmware.com/faq). For more detailed information,
-refer to [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## License
+There is also a Maven plugin available at `vcd-bindings-maven-plugin` to facilitate Typescript generation as part of a Maven project lifecycle.  Typescript can be generated for specific packages by adding the following plugin to an existing POM file:
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>com.vmware.vcloud</groupId>
+            <artifactId>vcd-bindings-maven-plugin</artifactId>
+            <version>1.0.0</version>
+            <executions>
+                <execution>
+                    <phase>generate-sources</phase>
+                    <goals>
+                        <goal>generate-typescript</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <packages>
+                    <package>com.vmware.vcloud.api.rest.schema.ovf</package>
+                    <package>com.vmware.vcloud.api.rest.schema.ovf.environment</package>
+                    <package>com.vmware.vcloud.api.rest.schema.ovf.vmware</package>
+                    <package>com.vmware.vcloud.api.rest.schema.versioning</package>
+                    <package>com.vmware.vcloud.api.rest.schema_v1_5</package>
+                    <package>com.vmware.vcloud.api.rest.schema_v1_5.extension</package>
+                </packages>
+            </configuration>
+            <dependencies>
+                <dependency>
+                    <groupId>com.vmware.vcloud</groupId>
+                    <artifactId>rest-api-bindings</artifactId>
+                    <version>9.1.0</version>
+                </dependency>
+            </dependencies>
+        </plugin>
+    </plugins>
+</build>
+```
+This will output a collection of classes, enums, and barrels that are ready for transpilation.

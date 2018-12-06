@@ -13,7 +13,7 @@
         <artifactId>api-tooling-parent</artifactId>
         <version>0.9.0</version>
     </parent>
-    <name>${project.artifactId} :: vCloud Director bindings generator</name>
+    <name>${project.artifactId} :: Bindings generation utility</name>
     <description>Provides custom API bindings generation beyond what can be accomplished with xjc and OpenAPI</description>
 
     <properties>

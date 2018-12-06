@@ -12,6 +12,11 @@
   <packaging>pom</packaging>
   <name>${project.artifactId} :: vCloud Director REST API tooling parent</name>
   <description>Parent project housing tools and utilities to process vCloud Director APIs and build bindings</description>
+  <organization>
+    <name>VMware, Inc.</name>
+    <url>https://www.vmware.com/</url>
+  </organization>
+  <inceptionYear>2018</inceptionYear>
   <modules>
     <module>vcd-xjc-plugins</module>
     <module>bindings-generator</module>
@@ -46,6 +51,29 @@
             <goals>
               <goal>jar</goal>
             </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>1.16</version>
+        <configuration>
+          <verbose>false</verbose>
+        </configuration>
+        <executions>
+          <execution>
+            <id>update-file-headers</id>
+            <goals>
+              <goal>update-file-header</goal>
+            </goals>
+            <phase>process-sources</phase>
+            <configuration>
+              <licenseName>bsd_2</licenseName>
+              <roots>
+                <root>src</root>
+              </roots>
+            </configuration>
           </execution>
         </executions>
       </plugin>

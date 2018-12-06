@@ -14,7 +14,7 @@
         <artifactId>api-tooling-parent</artifactId>
         <version>0.9.0</version>
     </parent>
-    <name>binding-plugin Maven Mojo</name>
+    <name>${project.artifactId} :: Maven plugin wrapper for bindings generation utility</name>
 
     <dependencies>
         <dependency>

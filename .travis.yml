@@ -1,0 +1,4 @@
+language: java
+before_install:
+  - mvn license:check-file-header -Dlicense.licenseName=bsd_2 -Dlicense.failOnNotUptodateHeader=true -Dlicense.failOnMissingHeader=true
+  

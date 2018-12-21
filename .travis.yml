@@ -6,6 +6,7 @@ before_install:
 deploy:
   provider: script
   script: cd $TRAVIS_BUILD_DIR && bash build-resources/travis-release.sh
+  skip_cleanup: true
   on:
     tags: true
     branch: master

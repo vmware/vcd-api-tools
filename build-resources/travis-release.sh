@@ -21,4 +21,4 @@ else
 fi
 
 # Push to Sonatype/Maven Central
-mvn --settings build-resources/travis-settings.xml -P release deploy
+mvn --settings build-resources/travis-settings.xml deploy

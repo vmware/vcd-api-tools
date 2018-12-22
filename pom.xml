@@ -228,7 +228,7 @@
           <plugins>
             <!--
              Maven Release Plugin
-             To release this project, follow the isntructions in RELEASING.md
+             To release this project, follow the instructions in RELEASING.md
             -->
             <plugin>
               <groupId>org.apache.maven.plugins</groupId>
@@ -265,7 +265,8 @@
             <configuration>
               <serverId>ossrh</serverId>
               <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+              <stagingProfileId>863e26d72b942f</stagingProfileId>
+              <stagingProfileRepository>vcd-api-tooling-parent-${project.version}</stagingProfileRepository>
             </configuration>
           </plugin>
         </plugins>

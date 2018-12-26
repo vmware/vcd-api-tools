@@ -1,7 +1,7 @@
 language: java
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_ef42fa2b23ae_key -iv $encrypted_ef42fa2b23ae_iv -in build-resources/gpg_files.tar.enc -out build-resources/gpg_files.tar -d
+  - openssl aes-256-cbc -K $encrypted_ef42fa2b23ae_key -iv $encrypted_ef42fa2b23ae_iv -in gpg_files.tar.enc -out gpg_files.tar -d
   - tar -f build-resources/gpg_files.tar -xO gpg-secret-keys | $GPG_EXECUTABLE --import
   - tar -f build-resources/gpg_files.tar -xO gpg-ownertrust | $GPG_EXECUTABLE --import-ownertrust
   - mvn license:check-file-header -Dlicense.licenseName=bsd_2 -Dlicense.failOnNotUptodateHeader=true -Dlicense.failOnMissingHeader=true

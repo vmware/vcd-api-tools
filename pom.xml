@@ -12,6 +12,7 @@
   <packaging>pom</packaging>
   <name>${project.artifactId} :: vCloud Director REST API tooling parent</name>
   <description>Parent project housing tools and utilities to process vCloud Director APIs and build bindings</description>
+  <url>https://github.com/vmware/vcd-api-tools</url>
   <inceptionYear>2018</inceptionYear>
   <modules>
     <module>vcd-xjc-plugins</module>
@@ -22,6 +23,12 @@
     <name>VMware, Inc.</name>
     <url>http://www.vmware.com</url>
   </organization>
+  <licenses>
+    <license>
+      <name>BSD-2-Clause</name>
+      <url>https://opensource.org/licenses/BSD-2-Clause</url>
+    </license>
+  </licenses>
 
   <developers>
     <developer>

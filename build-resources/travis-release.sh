@@ -21,4 +21,4 @@ else
 fi
 
 # Push to Sonatype/Maven Central
-mvn -Prelease --settings build-resources/travis-settings.xml -Dsettings.security=build-resources\security-settings.xml deploy
+mvn -Prelease --settings build-resources/travis-settings.xml -Dsettings.security=build-resources/security-settings.xml deploy

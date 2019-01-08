@@ -12,7 +12,7 @@
     <parent>
         <groupId>com.vmware.vcloud</groupId>
         <artifactId>vcd-api-tooling-parent</artifactId>
-        <version>0.9.0</version>
+        <version>0.9.1</version>
     </parent>
     <name>${project.artifactId} :: Maven plugin wrapper for bindings generation utility</name>
 

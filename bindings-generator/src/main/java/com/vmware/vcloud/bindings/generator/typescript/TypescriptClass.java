@@ -33,13 +33,32 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Collection;
+import java.util.Collections;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.commons.lang3.reflect.TypeUtils;
 
 public class TypescriptClass extends TypescriptFile {
+    /* A list of fields with schema names that have Java keyword collisions, but
+     * have normalized getters/setters. Since the JSON mapping uses the getter/setter names
+     * for serialization, so must the JSON payload.
+     *
+     * The @XmlAttribute and @XmlElement metadata was proven to be an unreliable way to determine
+     * getter/setter name, so resorting to more brutish methods.
+     */
+    private static final Map<String, String> RESERVED_NAMES;
+    static {
+        final Map<String, String> reserved = new HashMap<>();
+        reserved.put("_default", "default");
+        reserved.put("_interface", "interface");
+        
+        RESERVED_NAMES = Collections.unmodifiableMap(reserved);
+    }
+
     private Class<?> parent;
     private boolean isAbstract;
 
@@ -81,7 +100,8 @@ public class TypescriptClass extends TypescriptFile {
             }
         }
 
-        addField(field.getName(), mapper.getTypeName(actualType) + ((isArray) ? "[]" : ""));
+        final String typescriptFieldName = RESERVED_NAMES.getOrDefault(field.getName(), field.getName());
+        addField(typescriptFieldName, mapper.getTypeName(actualType) + ((isArray) ? "[]" : ""));
         if (!mapper.isBuiltInType(actualType) && !actualType.getTypeName().startsWith("java")) {
             addImport(clazz, (Class <?>) actualType);
         }

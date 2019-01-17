@@ -243,7 +243,7 @@ public class BindingsGenerator {
 
         Map<Path, List<String>> barrels = new HashMap<>();
         try (Stream<Path> files = Files.walk(outputDir.toPath())) {
-            files.forEach(f -> {
+            files.filter(f -> !"index.ts".equals(f.getFileName().toString())).forEach(f -> {
                 if (Files.isDirectory(f)) {
                     barrels.putIfAbsent(outputDir.toPath().relativize(f), new ArrayList<>());
                 }

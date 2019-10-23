@@ -150,6 +150,15 @@ public enum ApiVersion {
     /** Introduced in product version 9.0.0 */
     VERSION_30_0("30.0"),
 
+    /** Introduced in product version 9.5 */
+    VERSION_31_0("31.0"),
+
+    /** Introduced in product version 9.7 */
+    VERSION_32_0("32.0"),
+
+    /** Introduced in product version 10.0 */
+    VERSION_33_0("33.0"),
+
     /** Larger than all versions. Keep last! */
     VERSION_MAX("");
 

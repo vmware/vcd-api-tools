@@ -150,6 +150,15 @@ public enum ApiVersion {
     /** Introduced in product version 9.0.0 */
     VERSION_30_0("30.0"),
 
+    /** Introduced in product version 9.5 */
+    VERSION_31_0("31.0"),
+
+    /** Introduced in product version 9.7 */
+    VERSION_32_0("32.0"),
+
+    /** Introduced in product version 10.0 */
+    VERSION_33_0("33.0"),
+
     /** Larger than all versions. Keep last! */
     VERSION_MAX("");
 
@@ -189,6 +198,22 @@ public enum ApiVersion {
         ORG_VDC_ROLLUP(ApiVersion.VERSION_30_0),
         IMPORT_VM_STANDALONE(ApiVersion.VERSION_30_0),
         IMPROVED_SITE_NAME(ApiVersion.VERSION_30_0),
+        NSX_T_SUPPORT(ApiVersion.VERSION_31_0),
+        TENANT_VM_GROUP(ApiVersion.VERSION_31_0),
+        RESERVED_BUS_UNIT_NUMBER(ApiVersion.VERSION_31_0),
+        API_VERSION_POST9_1_UPDATE(ApiVersion.VERSION_31_0),
+        NSXT_ROUTER_IMPORT(ApiVersion.VERSION_31_0),
+        VCENTER_ROOT_FOLDER(ApiVersion.VERSION_31_0),
+        PROBE_REMOTE_LIBRARY(ApiVersion.VERSION_31_0),
+        PVDC_TAGGING_SUPPORT(ApiVersion.VERSION_31_0),
+        ORG_VDC_ROLLUP2(ApiVersion.VERSION_31_0),
+        GENERIC_VDC_TYPE(ApiVersion.VERSION_32_0),
+        CPOM(ApiVersion.VERSION_32_0),
+        VC_NONE_NETWORK(ApiVersion.VERSION_32_0),
+        SERVICE_APPS(ApiVersion.VERSION_32_0),
+        ADDED_UNIVERSAL_NETWORK_POOL_TO_EXT_PVDC(ApiVersion.VERSION_32_0),
+        INCLUDE_API_VERSION_IN_AUTH_LOCATION(ApiVersion.VERSION_33_0),
+        VM_SIZING_POLICY(ApiVersion.VERSION_33_0),
         ;
 
         private final ApiVersion mapping;

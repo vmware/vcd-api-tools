@@ -4,7 +4,7 @@ package com.vmware.vcloud.api.rest.version;
  * #%L
  * vcd-xjc-plugins :: Custom plugins for XML to Java Compilation
  * %%
- * Copyright (C) 2018 VMware, Inc.
+ * Copyright (C) 2018-2020 VMware, Inc.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -144,11 +144,20 @@ public enum ApiVersion {
     /** Introduced in product version 8.21 */
     VERSION_28_0("28.0"),
 
-    /** Introduced in product version 8.22 */
+    /** Introduced in product version 9.0 */
     VERSION_29_0("29.0"),
 
-    /** Introduced in product version 9.0.0 */
+    /** Introduced in product version 9.1 */
     VERSION_30_0("30.0"),
+
+    /** Introduced in product version 9.5 */
+    VERSION_31_0("31.0"),
+
+    /** Introduced in product version 9.7 */
+    VERSION_32_0("32.0"),
+
+    /** Introduced in product version 10.0 */
+    VERSION_33_0("33.0"),
 
     /** Larger than all versions. Keep last! */
     VERSION_MAX("");
@@ -157,10 +166,10 @@ public enum ApiVersion {
      * This enum will help manage all API version alias mappings.
      */
     public enum Alias {
-        MIN_SUPPORTED(ApiVersion.VERSION_5_5),
+        MIN_SUPPORTED(ApiVersion.VERSION_27_0),
         OBJECT_EXTENSIBILITY(ApiVersion.VERSION_16_0),
         VM_AFFINITY_RULES(ApiVersion.VERSION_20_0),
-        MAX_SUPPORTED(ApiVersion.VERSION_30_0),
+        MAX_SUPPORTED(ApiVersion.VERSION_33_0),
         VAPP_AUTO_NATURE(ApiVersion.VERSION_22_0),
         VDC_ADOPT_RP(ApiVersion.VERSION_22_0),
         PERSIST_TABLE_ACCESS(ApiVersion.VERSION_22_0),
@@ -170,15 +179,12 @@ public enum ApiVersion {
         FUTURE(ApiVersion.VERSION_MAX),
         ORG_RIGHTS_ROLES(ApiVersion.VERSION_27_0),
         MULTI_SITE(ApiVersion.VERSION_29_0),
-        MULTI_SITE_NETWORKING(ApiVersion.VERSION_30_0),
         VM_HOST_AFFINITY(ApiVersion.VERSION_27_0),
         ORG_LEASE_EXPIRE(ApiVersion.VERSION_25_0),
         AUTO_DISCOVER_VM_SETTINGS(ApiVersion.VERSION_27_0),
         DYNAMIC_HW_VERSION_SUPPORT(ApiVersion.VERSION_29_0),
         REGENERATE_BIOS_UUID(ApiVersion.VERSION_29_0),
         TENANT_STORAGE_MIGRATION(ApiVersion.VERSION_29_0),
-        CREATE_BLANK_VM(ApiVersion.VERSION_29_0),
-        INSTANTIATE_VM_TEMPLATE(ApiVersion.VERSION_29_0),
         VXLAN_NETWORK_POOL(ApiVersion.VERSION_29_0),
         PORTAL_BRANDING(ApiVersion.VERSION_30_0),
         RECOMPOSE_BLANK_VM(ApiVersion.VERSION_30_0),
@@ -189,6 +195,55 @@ public enum ApiVersion {
         ORG_VDC_ROLLUP(ApiVersion.VERSION_30_0),
         IMPORT_VM_STANDALONE(ApiVersion.VERSION_30_0),
         IMPROVED_SITE_NAME(ApiVersion.VERSION_30_0),
+        VCENTER_ROOT_FOLDER(ApiVersion.VERSION_31_0),
+        MULTI_SITE_NETWORKING(ApiVersion.VERSION_31_0),
+        CROSS_VDC_NETWORKING(ApiVersion.VERSION_31_0),
+        NSX_T_SUPPORT(ApiVersion.VERSION_31_0),
+        TENANT_VM_GROUP(ApiVersion.VERSION_31_0),
+        API_VERSION_POST9_1_UPDATE(ApiVersion.VERSION_31_0),
+        CHANGE_VAPP_TEMPLATE_OWNER(ApiVersion.VERSION_31_0),
+        VMC_SUPPORT(ApiVersion.VERSION_31_0),
+        PVDC_TAGGING_SUPPORT(ApiVersion.VERSION_31_0),
+        ORG_ASSOC_RESP_UPDATE(ApiVersion.VERSION_31_0),
+        OIDC_SUPPORT(ApiVersion.VERSION_31_0),
+        PROBE_REMOTE_LIBRARY(ApiVersion.VERSION_31_0),
+        RBAC_2(ApiVersion.VERSION_31_0),
+        RESERVED_BUS_UNIT_NUMBER(ApiVersion.VERSION_31_0),
+        EMAIL_SETTINGS_CLOUD_API(ApiVersion.VERSION_31_0),
+        LDAP_SYNC_TEST_CLOUD_API(ApiVersion.VERSION_31_0),
+        DEPRECATED_HOST_FEATURES(ApiVersion.VERSION_31_0),
+        ORG_VDC_ROLLUP2(ApiVersion.VERSION_31_0),
+        SITE_ORG_ASSOCIATIONS_QUERY(ApiVersion.VERSION_31_0),
+        ORG_VDC_NETWORKING(ApiVersion.VERSION_32_0),
+        CPOM(ApiVersion.VERSION_32_0),
+        CPOM_PROVIDER(ApiVersion.VERSION_33_0),
+        GENERIC_VDC_TYPE(ApiVersion.VERSION_32_0),
+        VC_NONE_NETWORK(ApiVersion.VERSION_32_0),
+        PREFERENCES(ApiVersion.VERSION_32_0),
+        ADDED_OAUTH_SETTINGS_DELETE(ApiVersion.VERSION_32_0),
+        SERVICE_APPS(ApiVersion.VERSION_32_0),
+        EDGE_CLUSTER(ApiVersion.VERSION_32_0),
+        ADDED_UNIVERSAL_NETWORK_POOL_TO_EXT_PVDC(ApiVersion.VERSION_32_0),
+        VDC_COMPUTE_POLICY_ADMIN_VIEW(ApiVersion.VERSION_32_0),
+        NSXT_ROUTER_IMPORT(ApiVersion.VERSION_32_0),
+        EDIT_VM_COMPUTE_POLICY(ApiVersion.VERSION_32_0),
+        VDC_CAPABILITIES(ApiVersion.VERSION_32_0),
+        NSXT_EDGE_DNS(ApiVersion.VERSION_32_0),
+        CREATE_BLANK_VM(ApiVersion.VERSION_32_0),
+        INSTANTIATE_VM_TEMPLATE(ApiVersion.VERSION_32_0),
+        VAPP_LOCALID_VM_QUERY(ApiVersion.VERSION_33_0),
+        NSXT_SERVICES(ApiVersion.VERSION_33_0),
+        VM_SIZING_POLICY(ApiVersion.VERSION_33_0),
+        AUTH_HEADERS_LOGIN_ONLY(ApiVersion.VERSION_33_0),
+        VM_REAPPLY_COMPUTE_POLICY(ApiVersion.VERSION_33_0),
+        VDC_MAX_COMPUTE_POLICY_CREATE(ApiVersion.VERSION_33_0),
+        VC_RESOURCE_POOLS(ApiVersion.VERSION_33_0),
+        ALLOW_ACTIVITY_ACCESS_IN_MAINT_MODE(ApiVersion.VERSION_33_0),
+        API_EXPLORER_VIEW(ApiVersion.VERSION_33_0),
+        AUDIT_TRAIL(ApiVersion.VERSION_33_0),
+        SECURITY_CONTEXT_CACHE_IN_DB(ApiVersion.VERSION_33_0),
+        INCLUDE_API_VERSION_IN_AUTH_LOCATION(ApiVersion.VERSION_33_0),
+        VDC_COMPUTE_POLICIES(ApiVersion.VERSION_33_0),
         ;
 
         private final ApiVersion mapping;

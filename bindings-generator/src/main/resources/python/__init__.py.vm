@@ -1,0 +1,8 @@
+"""
+  Copyright (c) ${year} VMware, Inc. All rights reserved.
+"""
+#foreach(${import} in ${imports})
+#foreach ($file_name in $import.keySet())
+from .$file_name import $import[$file_name]
+#end
+#end

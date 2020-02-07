@@ -4,14 +4,17 @@
 The projects in this folder are tools for working with the vCloud Director APIs.
 
 ## Bindings Generator ##
-A command line tool for generating Typescript bindings for vCD's XML-based REST API is available in `bindings-generator`.  The bindings generator can be executed like any typical application.  For instance, execution through Maven:
+A command line tool for generating Typescript and Python bindings for vCD's XML-based REST API is available in `bindings-generator`.  The bindings generator can be executed like any typical application.  For instance, execution through Maven:
 
+For `Typescript`:
 `mvn exec:java -Dexec.mainClass="com.vmware.vcloud.bindings.generator.BindingsGenerator" -Dexec.args="--help"`
+
+For `Python`:
+`mvn exec:java -Dexec.mainClass="com.vmware.vcloud.bindings.generator.PythonBindingsGenerator" -Dexec.args="--help"`
 
 will output the usage info:
 
 ```
-Usage: BindingsGenerator [options]
   Options:
     -h, --help
       Prints this help message
@@ -27,7 +30,7 @@ Usage: BindingsGenerator [options]
       One or more packages to scan for schema classes.
 ```
 
-There is also a Maven plugin available at `vcd-bindings-maven-plugin` to facilitate Typescript generation as part of a Maven project lifecycle.  Typescript can be generated for specific packages by adding the following plugin to an existing POM file:
+There is also a Maven plugin available at `vcd-bindings-maven-plugin` to facilitate Typescript and Python generation as part of a Maven project lifecycle.  Typescript can be generated for specific packages by adding the following plugin to an existing POM file:
 ```xml
 <build>
     <plugins>
@@ -64,4 +67,7 @@ There is also a Maven plugin available at `vcd-bindings-maven-plugin` to facilit
     </plugins>
 </build>
 ```
+
+For python, you need to change the goal to `generate-python`, in the above plugin to an existing POM file, e.g., update `<goal>generate-typescript</goal>` to `<goal>generate-python</goal>`.
+
 This will output a collection of classes, enums, and barrels that are ready for transpilation.

@@ -5,8 +5,11 @@ from pprint import pformat
 from six import iteritems
 import re
 #foreach(${import} in ${class.imports})
+#if(${class.parent} and (${import.definition} == ${class.parent}))
 from ${import.module} import ${import.definition}
 #end
+#end
+
 
 class ${class.name}(#if(${class.parent})${class.parent}#{else}object#end):
     """
@@ -36,18 +39,18 @@ class ${class.name}(#if(${class.parent})${class.parent}#{else}object#end):
         #end
     }
 
-    def __init__(self#if(${class.fields.size()} > 0),#end #foreach(${field} in ${class.fields})${field.name}=None#if($foreach.count < ${class.fields.size()}),#end#end):
+    def __init__(self#if(${class.fields.size()} > 0),#end #foreach(${field} in ${class.fields})${field.displayName}=None#if($foreach.count < ${class.fields.size()}),#end#end):
         #if(${class.fields.size()} == 0)
         pass
         #else
         #foreach(${field} in ${class.fields})
-        self._${field.name} = None
+        self._${field.displayName} = None
         #end
 
         #if(${class.fields.size()} > 0)
         #foreach(${field} in ${class.fields})
-        if ${field.name} is not None:
-            self.${field.name} = ${field.name}
+        if ${field.displayName} is not None:
+            self.${field.displayName} = ${field.displayName}
         #end
         #end
         #end
@@ -91,7 +94,7 @@ class ${class.name}(#if(${class.parent})${class.parent}#{else}object#end):
 
     def to_str(self):
         """Returns the string representation of the model"""
-        return pprint.pformat(self.to_dict())
+        return pformat(self.to_dict())
 
     def __repr__(self):
         """For `print` and `pprint`"""

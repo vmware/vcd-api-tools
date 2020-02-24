@@ -9,6 +9,7 @@ import enum
 from ${import.module} import ${import.definition}
 #end
 
+
 class ${class.name}(enum.Enum):
 #foreach(${field} in ${class.fields})
     ${field.name} = "${field.name}"

@@ -114,9 +114,22 @@ public abstract class PythonFile {
 
         Path usingClassPath = Paths.get(usingClass.getPackage().getName().replace(".", "/")).normalize();
         Path referencedClassPath = Paths.get(referencedClass.getName().replace(".", "/")).normalize();
-        final String fileName = underscore(usingClassPath.relativize(referencedClassPath).toString().replace("\\", ".").replace("/", "."));
-        final String clasName = referencedClass.getSimpleName();
-        this.imports.add(new Import(clasName, "." + fileName));
+        String clasName = referencedClass.getSimpleName();
+        String fileName;
+        final String[] references = referencedClassPath.toString().split("/");
+        if (references.length == 2 && references[0].isEmpty()) {
+        	fileName = underscore(usingClassPath.relativize(referencedClassPath).toString().replace("\\", ".").replace("/", "."));
+        } else if (references.length > 1) {
+            String relativePath = usingClassPath.relativize(referencedClassPath).toString();
+            relativePath = relativePath.replaceFirst("/", "");
+            fileName =  underscore(relativePath.replace("/", ".").replace("\\", "."));
+            if (!fileName.startsWith(".")) {
+            	fileName = '.' + fileName;
+            }
+        } else {
+            fileName = '.' + underscore(usingClassPath.relativize(referencedClassPath).toString().replace("\\", ".").replace("/", "."));
+        }
+        this.imports.add(new Import(clasName, fileName));
     }
 
     /**
@@ -132,7 +145,7 @@ public abstract class PythonFile {
         String secondPattern = "([a-z\\d])([A-Z])";
         String replacementPattern = "$1_$2";
         // Replace package separator with slash.
-        word = word.replaceAll("\\.", "/"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
+        //word = word.replaceAll("\\.", "/"); // FIXME: a parameter should not be assigned. Also declare the methods parameters as 'final'.
         // Replace $ with two underscores for inner classes.
         word = word.replaceAll("\\$", "__");
         // Replace capital letter with _ plus lowercase letter.

@@ -1,5 +1,6 @@
 package com.vmware.vcloud.bindings.generator.python;
 
+
 /*-
  * #%L
  * vcd-bindings-generator :: Bindings generation utility
@@ -55,6 +56,7 @@ public class PythonClass extends PythonFile {
         final Map<String, String> reserved = new HashMap<>();
         reserved.put("_default", "default");
         reserved.put("_interface", "interface");
+        reserved.put("property", "_property");
         
         RESERVED_NAMES = Collections.unmodifiableMap(reserved);
     }
@@ -101,7 +103,7 @@ public class PythonClass extends PythonFile {
         }
 
         final String typescriptFieldName = RESERVED_NAMES.getOrDefault(field.getName(), field.getName());
-        addField(typescriptFieldName, mapper.getTypeName(actualType) + ((isArray) ? "[]" : ""));
+        addField(typescriptFieldName, ((isArray) ? "list["+mapper.getTypeName(actualType)+"]" : mapper.getTypeName(actualType)));
         if (!mapper.isBuiltInType(actualType) && !actualType.getTypeName().startsWith("java")) {
             addImport(clazz, (Class <?>) actualType);
         }

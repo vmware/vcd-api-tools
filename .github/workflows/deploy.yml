@@ -8,7 +8,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Import gpg secret keys
-      run: ./.github/scripts/prepare_gpg.sh
+      run: |
+        chmod +x ./.github/scripts/prepare_gpg.sh
+        ./.github/scripts/prepare_gpg.sh
       env:
         GPG_SECRET_KEYS: ${{secrets.GPG_SECRET_KEYS}}
     - name: Import gpg ownertrust

@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/vmware/vcd-api-tools.svg?branch=master)](https://travis-ci.com/vmware/vcd-api-tools)
+![vcd-api-tools CI](https://github.com/vmware/vcd-api-tools/workflows/vcd-api-tools%20CI/badge.svg?branch=master)
 
 # vCloud Director API Tools #
 The projects in this folder are tools for working with the vCloud Director APIs.

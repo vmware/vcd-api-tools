@@ -8,7 +8,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Import gpg secret keys
-      run: echo $GPG_SECRET_KEYS | gpg --allow-secret-key-import --import
+      run: echo $GPG_SECRET_KEYS | gpg --pinentry-mode loopback --allow-secret-key-import --import
       env:
         GPG_SECRET_KEYS: ${{secrets.GPG_SECRET_KEYS}}
     - name: Import gpg ownertrust

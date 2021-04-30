@@ -4,7 +4,7 @@ package com.vmware.vcloud.api.rest.version;
  * #%L
  * vcd-xjc-plugins :: Custom plugins for XML to Java Compilation
  * %%
- * Copyright (C) 2018-2020 VMware, Inc.
+ * Copyright (C) 2018 - 2021 VMware, Inc.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -36,128 +36,158 @@ import java.util.Set;
 import com.vmware.vcloud.api.annotation.Supported;
 
 /**
- * Enum with supported API version. <p>
- *
+ * <p>
+ * Enum with supported API version.
+ * <p>
  * <b>IMPORTANT!</b> Versions are compared using the natural enum order, so keep them in ascending
  * order!
- *
+ * </p>
+ * See https://wiki.eng.vmware.com/CloudAPI/CompatibilityAndVersioning for rules related to adding
+ * new API versions
  * @since 1.5.0
  */
 public enum ApiVersion {
 
-    /** Introduced in product version 1.0 */
+    /** Introduced in product version 1.0 / Redwood */
     @Deprecated
     VERSION_1_0("1.0", true),
 
-    /** Introduced in product version 1.5 */
+    /** Introduced in product version 1.5 / Toledo */
     @Deprecated
     VERSION_1_5("1.5", true),
 
-    /** Introduced in product version 5.1 */
+    /** Introduced in product version 5.1 / T2 */
     @Deprecated
     VERSION_5_1("5.1", true),
 
-    /** Introduced in product version 5.5 */
-    VERSION_5_5("5.5"),
+    /** Introduced in product version 5.5 / OP */
+    @Deprecated
+    VERSION_5_5("5.5", true),
 
-    /** Introduced in product version 5.6 */
-    VERSION_5_6("5.6"),
+    /** Introduced in product version 5.6 / Northstar */
+    @Deprecated
+    VERSION_5_6("5.6", true),
 
     /** Introduced in product version 5.7 */
+    @Deprecated
     VERSION_5_7("5.7", true),
 
     /** Introduced in product version 5.8 */
+    @Deprecated
     VERSION_5_8("5.8", true),
 
     /** Introduced in product version 5.9 */
+    @Deprecated
     VERSION_5_9("5.9", true),
 
     /** Introduced in product version 6.1 */
+    @Deprecated
     VERSION_5_10("5.10", true),
 
     /** Introduced in product version 6.2 */
+    @Deprecated
     VERSION_5_11("5.11", true),
 
     /** Introduced in product version 6.3 */
+    @Deprecated
     VERSION_5_12("5.12", true),
 
     /** Introduced in product version 6.4 */
+    @Deprecated
     VERSION_6_0("6.0", true),
 
     /** Introduced in product version 6.5 */
+    @Deprecated
     VERSION_7_0("7.0", true),
 
-    /** Skipped */
-    //VERSION_8_0("8.0"),
+    /** Reserved for potential use in a release between 6.5 and 7.1 */
+    //VERSION_8_0("8.0", true),
 
     /** Introduced in product version 7.1 */
-    VERSION_9_0("9.0"),
+    @Deprecated
+    VERSION_9_0("9.0", true),
 
     /** Introduced in product version 8.1 */
+    @Deprecated
     VERSION_11_0("11.0", true),
 
     /** Introduced in product version 8.2 */
+    @Deprecated
     VERSION_12_0("12.0", true),
 
     /** Introduced in product version 8.3 */
-    VERSION_13_0("13.0"),
+    @Deprecated
+    VERSION_13_0("13.0", true),
 
     /** Introduced in product version 8.4 */
+    @Deprecated
     VERSION_14_0("14.0", true),
 
     /** Introduced in product version 8.6 */
+    @Deprecated
     VERSION_16_0("16.0", true),
 
     /** Introduced in product version 8.7 */
-    VERSION_17_0("17.0"),
+    @Deprecated
+    VERSION_17_0("17.0", true),
 
     /** Introduced in product version 8.8 */
+    @Deprecated
     VERSION_18_0("18.0", true),
 
     /** Introduced in product version 8.9 */
+    @Deprecated
     VERSION_19_0("19.0", true),
 
-    /** Introduced in product version 8.10 */
-    VERSION_20_0("20.0"),
+    /** Introduced in product version 8.10 / Riverfront */
+    @Deprecated
+    VERSION_20_0("20.0", true),
 
     /** Introduced in product version 8.11 */
-    VERSION_21_0("21.0"),
+    @Deprecated
+    VERSION_21_0("21.0", true),
 
     /** Introduced in product version 8.12 */
-    VERSION_22_0("22.0"),
+    @Deprecated
+    VERSION_22_0("22.0", true),
 
     /** Introduced in product version 8.13 */
-    VERSION_23_0("23.0"),
+    @Deprecated
+    VERSION_23_0("23.0", true),
 
     /** Introduced in product version 8.14 */
-    VERSION_24_0("24.0"),
+    @Deprecated
+    VERSION_24_0("24.0", true),
 
     /** Introduced in product version 8.15 */
-    VERSION_25_0("25.0"),
+    @Deprecated
+    VERSION_25_0("25.0", true),
 
     /** Introduced in product version 8.16 */
-    VERSION_26_0("26.0"),
+    @Deprecated
+    VERSION_26_0("26.0", true),
 
-    /** Introduced in product version 8.17 */
-    VERSION_27_0("27.0"),
+    /** Introduced in product version Sunglow (8.20)
+     *  Despite being deprecated, this version will stick around for a long time.
+     */
+    @Deprecated
+    VERSION_27_0("27.0", true),
 
-    /** Introduced in product version 8.21 */
-    VERSION_28_0("28.0"),
+    /** Introduced in product version 8.21 **/
+    @Deprecated
+    VERSION_28_0("28.0", true),
 
-    /** Introduced in product version 9.0 */
+    /** Introduced in product version Trifecta (9.0) **/
     VERSION_29_0("29.0"),
 
-    /** Introduced in product version 9.1 */
+    /** Introduced in product version Ulysses (9.1) **/
     VERSION_30_0("30.0"),
 
-    /** Introduced in product version 9.5 */
+    /** Introduced in product version Vulcan (9.5) **/
     VERSION_31_0("31.0"),
 
-    /** Introduced in product version 9.7 */
+    /** Introduced in product version Wellington **/
     VERSION_32_0("32.0"),
-
-    /** Introduced in product version 10.0 */
-    VERSION_33_0("33.0"),
 
     /** Larger than all versions. Keep last! */
     VERSION_MAX("");
@@ -166,10 +196,10 @@ public enum ApiVersion {
      * This enum will help manage all API version alias mappings.
      */
     public enum Alias {
-        MIN_SUPPORTED(ApiVersion.VERSION_27_0),
+        MIN_SUPPORTED(ApiVersion.VERSION_20_0),
         OBJECT_EXTENSIBILITY(ApiVersion.VERSION_16_0),
         VM_AFFINITY_RULES(ApiVersion.VERSION_20_0),
-        MAX_SUPPORTED(ApiVersion.VERSION_33_0),
+        MAX_SUPPORTED(ApiVersion.VERSION_32_0),
         VAPP_AUTO_NATURE(ApiVersion.VERSION_22_0),
         VDC_ADOPT_RP(ApiVersion.VERSION_22_0),
         PERSIST_TABLE_ACCESS(ApiVersion.VERSION_22_0),
@@ -216,7 +246,6 @@ public enum ApiVersion {
         SITE_ORG_ASSOCIATIONS_QUERY(ApiVersion.VERSION_31_0),
         ORG_VDC_NETWORKING(ApiVersion.VERSION_32_0),
         CPOM(ApiVersion.VERSION_32_0),
-        CPOM_PROVIDER(ApiVersion.VERSION_33_0),
         GENERIC_VDC_TYPE(ApiVersion.VERSION_32_0),
         VC_NONE_NETWORK(ApiVersion.VERSION_32_0),
         PREFERENCES(ApiVersion.VERSION_32_0),
@@ -231,31 +260,19 @@ public enum ApiVersion {
         NSXT_EDGE_DNS(ApiVersion.VERSION_32_0),
         CREATE_BLANK_VM(ApiVersion.VERSION_32_0),
         INSTANTIATE_VM_TEMPLATE(ApiVersion.VERSION_32_0),
-        VAPP_LOCALID_VM_QUERY(ApiVersion.VERSION_33_0),
-        NSXT_SERVICES(ApiVersion.VERSION_33_0),
-        VM_SIZING_POLICY(ApiVersion.VERSION_33_0),
-        AUTH_HEADERS_LOGIN_ONLY(ApiVersion.VERSION_33_0),
-        VM_REAPPLY_COMPUTE_POLICY(ApiVersion.VERSION_33_0),
-        VDC_MAX_COMPUTE_POLICY_CREATE(ApiVersion.VERSION_33_0),
-        VC_RESOURCE_POOLS(ApiVersion.VERSION_33_0),
-        ALLOW_ACTIVITY_ACCESS_IN_MAINT_MODE(ApiVersion.VERSION_33_0),
-        API_EXPLORER_VIEW(ApiVersion.VERSION_33_0),
-        AUDIT_TRAIL(ApiVersion.VERSION_33_0),
-        SECURITY_CONTEXT_CACHE_IN_DB(ApiVersion.VERSION_33_0),
-        INCLUDE_API_VERSION_IN_AUTH_LOCATION(ApiVersion.VERSION_33_0),
-        VDC_COMPUTE_POLICIES(ApiVersion.VERSION_33_0),
+        SECURITY_CONTEXT_CACHE_IN_DB(ApiVersion.VERSION_32_0),
         ;
 
         private final ApiVersion mapping;
 
         private final Alias parentAlias;
 
-        private Alias(ApiVersion mapping) {
+        Alias(ApiVersion mapping) {
             this.mapping = mapping;
             this.parentAlias = null;
         }
 
-        private Alias(Alias alias) {
+        Alias(Alias alias) {
             this.mapping = null;
             this.parentAlias = alias;
         }
@@ -328,11 +345,14 @@ public enum ApiVersion {
     /**
      * Checks if the current version is in range [min..max).
      *
-     * @param min the min version for range check
-     * @param max the max version for range check
+     * @param min
+     * @param max
      * @return {@code true} if min &lt;= this &lt; max
      */
     public boolean isInRange(final ApiVersion min, final ApiVersion max) {
+        // TODO This check shouldn't be here. It only masks a real problem
+        // somewhere, as the requested version should never be equal to
+        // VERSION_MAX.
         if (max == VERSION_MAX) {
             return min.compareTo(this) <= 0;
         }
@@ -362,6 +382,20 @@ public enum ApiVersion {
      */
     public boolean isAtMost(final ApiVersion version) {
         return this.compareTo(version) <= 0;
+    }
+
+    /**
+     * @return {@code true} if this version falls within the supported range
+     * of the {@link Supported} annotation (including if no range is provided)
+     */
+    public boolean isSupported(Supported supported) {
+        if (supported == null) {
+            /* Use of @Supported annotation isn't required so if not
+             * present assume it's valid for this API version */
+            return true;
+        }
+
+        return this.isInRange(supported);
     }
 
     /**
@@ -412,3 +446,5 @@ public enum ApiVersion {
         return getRange(minApiVersion, Alias.MAX_SUPPORTED.getMapping());
     }
 }
+
+

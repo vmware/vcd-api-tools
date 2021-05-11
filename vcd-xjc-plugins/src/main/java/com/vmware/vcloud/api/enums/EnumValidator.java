@@ -1,4 +1,8 @@
-package com.vmware.vcloud.api.annotation;
+/* ***************************************************************************
+ * Copyright 2015 VMware, Inc.  All rights reserved.
+ * -- VMware Confidential
+ * ***************************************************************************/
+package com.vmware.vcloud.api.enums;
 
 /*-
  * #%L
@@ -29,33 +33,23 @@ package com.vmware.vcloud.api.annotation;
  * #L%
  */
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.io.Serializable;
+
+import com.vmware.vcloud.api.rest.version.Supported;
 
 /**
- * This annotation denotes when the specific feature was introduced to the
- * REST-API and if and when it was removed. This annotation is added
- * automatically to the JAXB generated classes.
- * <p>
- * The feature is present starting from {@link #addedIn()} version inclusive, to
- * {@link #removedIn()} exclusive.
- * </p>
+ * A simple validation interface; do not use outside the scope of special
+ * cases of {@code NameVersionHolder}
+ *
+ * @since 7.2
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
-public @interface Supported {
-
-    public static final String VCLOUD_LEGACY_FILTER_PARAM = "vcloud_legacy";
+public interface EnumValidator<T extends Supported> extends Serializable {
 
     /**
-     * Version in which the feature was added.
+     * Perform validation on the key and value pair
+     *
+     * @param key
+     * @param value
      */
-    String addedIn();
-
-    /**
-     * Version in which the feature was removed.
-     */
-    String removedIn() default "";
+    void validate(String key, T value);
 }

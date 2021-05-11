@@ -1,0 +1,5 @@
+Test SDK pipeline with core-build cayman
+Run Cayman schema
+Check bot user 1
+Run with fork
+

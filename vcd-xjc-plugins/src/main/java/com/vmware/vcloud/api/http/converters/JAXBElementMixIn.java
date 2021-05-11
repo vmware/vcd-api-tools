@@ -1,4 +1,4 @@
-package com.vmware.vcloud.api.annotation;
+package com.vmware.vcloud.api.http.converters;
 
 /*-
  * #%L
@@ -29,33 +29,24 @@ package com.vmware.vcloud.api.annotation;
  * #L%
  */
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.xml.bind.JAXBElement;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * This annotation denotes when the specific feature was introduced to the
- * REST-API and if and when it was removed. This annotation is added
- * automatically to the JAXB generated classes.
- * <p>
- * The feature is present starting from {@link #addedIn()} version inclusive, to
- * {@link #removedIn()} exclusive.
- * </p>
+ * A Jackson Mixin that guides serializing {@link JAXBElement}'s as just being the core payload
+ * (returned by {@link JAXBElement#getValue() value field of JAXBElement}.
+ * <P>
+ * De-serializing the payload is handled by {@code VCloudJsonJaxrsProvider}
+ * <P>
+ * Ref:<A href="https://github.com/FasterXML/jackson-docs/wiki/JacksonMixInAnnotations">Official
+ * Jackson MixIn Annotations Documentation</A>
+ * <P>
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
-public @interface Supported {
+@JsonIgnoreProperties(value = { "globalScope", "typeSubstituted", "nil" })
+public abstract class JAXBElementMixIn<T> {
 
-    public static final String VCLOUD_LEGACY_FILTER_PARAM = "vcloud_legacy";
-
-    /**
-     * Version in which the feature was added.
-     */
-    String addedIn();
-
-    /**
-     * Version in which the feature was removed.
-     */
-    String removedIn() default "";
+    @JsonValue
+    public abstract Object getValue();
 }

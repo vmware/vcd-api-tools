@@ -1,4 +1,4 @@
-package com.vmware.vcloud.api.annotation;
+package com.vmware.vcloud.api.rest.version;
 
 /*-
  * #%L
@@ -29,33 +29,20 @@ package com.vmware.vcloud.api.annotation;
  * #L%
  */
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
 /**
- * This annotation denotes when the specific feature was introduced to the
- * REST-API and if and when it was removed. This annotation is added
- * automatically to the JAXB generated classes.
- * <p>
- * The feature is present starting from {@link #addedIn()} version inclusive, to
- * {@link #removedIn()} exclusive.
- * </p>
+ * This interface defines when an item was added and if and when it was removed.
+ *
+ * @since 5.1
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
-public @interface Supported {
-
-    public static final String VCLOUD_LEGACY_FILTER_PARAM = "vcloud_legacy";
+public interface Supported {
+    /**
+     * @return the {@link ApiVersion} of when the item appeared first.
+     */
+    ApiVersion getAddedIn();
 
     /**
-     * Version in which the feature was added.
+     * @return the {@link ApiVersion} of when the item was removed.
      */
-    String addedIn();
-
-    /**
-     * Version in which the feature was removed.
-     */
-    String removedIn() default "";
+    ApiVersion getRemovedIn();
 }

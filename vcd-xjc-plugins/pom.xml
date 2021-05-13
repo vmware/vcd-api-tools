@@ -10,7 +10,7 @@
   <parent>
     <groupId>com.vmware.vcloud</groupId>
     <artifactId>vcd-api-tooling-parent</artifactId>
-    <version>0.9.3</version>
+    <version>9.7</version>
   </parent>
   <packaging>jar</packaging>
   <name>${project.artifactId} :: Custom plugins for XML to Java Compilation</name>
@@ -29,5 +29,12 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.12.2</version>
+   </dependency>
+
   </dependencies>
 </project>

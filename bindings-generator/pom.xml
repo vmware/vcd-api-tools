@@ -22,7 +22,7 @@
         <jaxb.version>2.3.0</jaxb.version>
         <jcommander.version>1.72</jcommander.version>
         <logback.version>1.2.3</logback.version>
-        <spring.version>5.0.4.RELEASE</spring.version>
+        <spring.version>5.2.4.RELEASE</spring.version>
         <velocity.version>2.0</velocity.version>
         <xstream.version>1.4.10</xstream.version>
     </properties>

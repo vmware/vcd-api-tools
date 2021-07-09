@@ -178,7 +178,8 @@ public enum ApiVersion {
     VERSION_28_0("28.0", true),
 
     /** Introduced in product version Trifecta (9.0) **/
-    VERSION_29_0("29.0"),
+    @Deprecated
+    VERSION_29_0("29.0", true),
 
     /** Introduced in product version Ulysses (9.1) **/
     VERSION_30_0("30.0"),
@@ -186,8 +187,11 @@ public enum ApiVersion {
     /** Introduced in product version Vulcan (9.5) **/
     VERSION_31_0("31.0"),
 
-    /** Introduced in product version Wellington **/
+    /** Introduced in product version Wellington (9.7) **/
     VERSION_32_0("32.0"),
+
+    /** Introduced in product version Xendi **/
+    VERSION_33_0("33.0"),
 
     /** Larger than all versions. Keep last! */
     VERSION_MAX("");
@@ -196,10 +200,10 @@ public enum ApiVersion {
      * This enum will help manage all API version alias mappings.
      */
     public enum Alias {
-        MIN_SUPPORTED(ApiVersion.VERSION_20_0),
+        MIN_SUPPORTED(ApiVersion.VERSION_27_0),
         OBJECT_EXTENSIBILITY(ApiVersion.VERSION_16_0),
         VM_AFFINITY_RULES(ApiVersion.VERSION_20_0),
-        MAX_SUPPORTED(ApiVersion.VERSION_32_0),
+        MAX_SUPPORTED(ApiVersion.VERSION_33_0),
         VAPP_AUTO_NATURE(ApiVersion.VERSION_22_0),
         VDC_ADOPT_RP(ApiVersion.VERSION_22_0),
         PERSIST_TABLE_ACCESS(ApiVersion.VERSION_22_0),
@@ -246,6 +250,7 @@ public enum ApiVersion {
         SITE_ORG_ASSOCIATIONS_QUERY(ApiVersion.VERSION_31_0),
         ORG_VDC_NETWORKING(ApiVersion.VERSION_32_0),
         CPOM(ApiVersion.VERSION_32_0),
+        CPOM_PROVIDER(ApiVersion.VERSION_33_0),
         GENERIC_VDC_TYPE(ApiVersion.VERSION_32_0),
         VC_NONE_NETWORK(ApiVersion.VERSION_32_0),
         PREFERENCES(ApiVersion.VERSION_32_0),
@@ -260,7 +265,19 @@ public enum ApiVersion {
         NSXT_EDGE_DNS(ApiVersion.VERSION_32_0),
         CREATE_BLANK_VM(ApiVersion.VERSION_32_0),
         INSTANTIATE_VM_TEMPLATE(ApiVersion.VERSION_32_0),
-        SECURITY_CONTEXT_CACHE_IN_DB(ApiVersion.VERSION_32_0),
+        VAPP_LOCALID_VM_QUERY(ApiVersion.VERSION_33_0),
+        NSXT_SERVICES(ApiVersion.VERSION_33_0),
+        VM_SIZING_POLICY(ApiVersion.VERSION_33_0),
+        AUTH_HEADERS_LOGIN_ONLY(ApiVersion.VERSION_33_0),
+        VM_REAPPLY_COMPUTE_POLICY(ApiVersion.VERSION_33_0),
+        VDC_MAX_COMPUTE_POLICY_CREATE(ApiVersion.VERSION_33_0),
+        VC_RESOURCE_POOLS(ApiVersion.VERSION_33_0),
+        ALLOW_ACTIVITY_ACCESS_IN_MAINT_MODE(ApiVersion.VERSION_33_0),
+        API_EXPLORER_VIEW(ApiVersion.VERSION_33_0),
+        AUDIT_TRAIL(ApiVersion.VERSION_33_0),
+        SECURITY_CONTEXT_CACHE_IN_DB(ApiVersion.VERSION_33_0),
+        INCLUDE_API_VERSION_IN_AUTH_LOCATION(ApiVersion.VERSION_33_0),
+        VDC_COMPUTE_POLICIES(ApiVersion.VERSION_33_0),
         ;
 
         private final ApiVersion mapping;
@@ -332,6 +349,15 @@ public enum ApiVersion {
         return ApiVersionCacheHelper.instance.getValue(v);
     }
 
+    public static boolean isValidApiVersion(String v) {
+        if (!ApiVersionCacheHelper.instance.isCached(v)) {
+            if (!ApiVersionCacheHelper.instance.isAliasCached(v)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Checks if the version is in the range supported by <b>s</b>.
      *
@@ -373,6 +399,18 @@ public enum ApiVersion {
     }
 
     /**
+     * Tests if this {@code ApiVersion} is greater than the given one.
+     *
+     * @param version
+     *            the version to compare this version to
+     * @return true if this {@code ApiVersion} is greater than or equal to {@code version}, false
+     *         otherwise
+     */
+    public boolean isGreaterThan(final ApiVersion version) {
+        return this.compareTo(version) > 0;
+    }
+
+    /**
      * Tests if this {@code ApiVersion} is less than or equal to the given one.
      *
      * @param version
@@ -382,6 +420,18 @@ public enum ApiVersion {
      */
     public boolean isAtMost(final ApiVersion version) {
         return this.compareTo(version) <= 0;
+    }
+
+    /**
+     * Tests if this {@code ApiVersion} is less than the given one.
+     *
+     * @param version
+     *            the version to compare this version to
+     * @return true if this {@code ApiVersion} is less than {@code version}, false
+     *         otherwise
+     */
+    public boolean isLessThan(final ApiVersion version) {
+        return this.compareTo(version) < 0;
     }
 
     /**
@@ -446,5 +496,4 @@ public enum ApiVersion {
         return getRange(minApiVersion, Alias.MAX_SUPPORTED.getMapping());
     }
 }
-
 

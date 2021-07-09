@@ -1,4 +1,4 @@
-package com.vmware.vcloud.api.rest.version;
+package com.vmware.vcloud.api.annotation;
 
 /*-
  * #%L
@@ -29,21 +29,19 @@ package com.vmware.vcloud.api.rest.version;
  * #L%
  */
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * This interface defines when an item was added and if and when it was removed.
- *
- * @since 5.1
+ * This annotation denotes that the annotated field is potentially restricted. Before writing out or
+ * reading in this field, the API framework should determine if the caller is allowed to see/use the
+ * field.
  */
-public interface Supported {
-    /**
-     * @return the {@link ApiVersion} of when the item appeared first.
-     */
-    ApiVersion getAddedIn();
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.FIELD })
+public @interface Restricted {
 
-    /**
-     * @return the {@link ApiVersion} of when the item was removed.
-     */
-    ApiVersion getRemovedIn();
 }
 

@@ -10,7 +10,7 @@
   <parent>
     <groupId>com.vmware.vcloud</groupId>
     <artifactId>vcd-api-tooling-parent</artifactId>
-    <version>9.7</version>
+    <version>10.0.0</version>
   </parent>
   <packaging>jar</packaging>
   <name>${project.artifactId} :: Custom plugins for XML to Java Compilation</name>
@@ -37,4 +37,16 @@
    </dependency>
 
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <encoding>utf8</encoding>
+          <source>1.8</source>
+          <target>1.8</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

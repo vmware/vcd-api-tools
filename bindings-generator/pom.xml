@@ -11,7 +11,7 @@
     <parent>
         <groupId>com.vmware.vcloud</groupId>
         <artifactId>vcd-api-tooling-parent</artifactId>
-        <version>9.7</version>
+        <version>10.0.0</version>
     </parent>
     <name>${project.artifactId} :: Bindings generation utility</name>
     <description>Provides custom API bindings generation beyond what can be accomplished with xjc and OpenAPI</description>

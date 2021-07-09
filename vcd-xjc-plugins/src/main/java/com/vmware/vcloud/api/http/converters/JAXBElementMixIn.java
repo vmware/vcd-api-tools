@@ -51,4 +51,3 @@ public abstract class JAXBElementMixIn<T> {
     public abstract Object getValue();
 }
 
-

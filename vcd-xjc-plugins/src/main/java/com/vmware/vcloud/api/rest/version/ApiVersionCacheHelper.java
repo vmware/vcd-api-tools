@@ -4,7 +4,7 @@ package com.vmware.vcloud.api.rest.version;
  * #%L
  * vcd-xjc-plugins :: Custom plugins for XML to Java Compilation
  * %%
- * Copyright (C) 2018 VMware, Inc.
+ * Copyright (C) 2018 - 2021 VMware, Inc.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:

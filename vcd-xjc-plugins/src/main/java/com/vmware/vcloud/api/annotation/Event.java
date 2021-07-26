@@ -1,4 +1,4 @@
-package com.vmware.vcloud.api.http.converters;
+package com.vmware.vcloud.api.annotation;
 
 /*-
  * #%L
@@ -29,24 +29,22 @@ package com.vmware.vcloud.api.http.converters;
  * #L%
  */
 
-import javax.xml.bind.JAXBElement;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * A Jackson Mixin that guides serializing {@link JAXBElement}'s as just being the core payload
- * (returned by {@link JAXBElement#getValue() value field of JAXBElement}.
- * <P>
- * De-serializing the payload is handled by {@code VCloudJsonJaxrsProvider}
- * <P>
- * Ref:<A href="https://github.com/FasterXML/jackson-docs/wiki/JacksonMixInAnnotations">Official
- * Jackson MixIn Annotations Documentation</A>
- * <P>
+ * Used to annotate methods that have an associated Audit Trail API Event.
  */
-@JsonIgnoreProperties(value = { "globalScope", "typeSubstituted", "nil" })
-public abstract class JAXBElementMixIn<T> {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface Event {
 
-    @JsonValue
-    public abstract Object getValue();
+    /**
+     * The name of the EventTopic to look up an associated Builder implementation of.
+     *
+     * @return the String name of the EventTopic.
+     */
+    String eventTopicName();
 }

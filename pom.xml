@@ -1,14 +1,9 @@
 <?xml version="1.0"?>
-<!--
- api-extension-template-vcloud-director
- Copyright 2018 VMware, Inc.
- SPDX-License-Identifier: BSD-2-Clause
--->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.vmware.vcloud</groupId>
   <artifactId>vcd-api-tooling-parent</artifactId>
-  <version>9.7</version>
+  <version>10.3.0</version>
   <packaging>pom</packaging>
   <name>${project.artifactId} :: vCloud Director REST API tooling parent</name>
   <description>Parent project housing tools and utilities to process vCloud Director APIs and build bindings</description>

@@ -4,7 +4,7 @@ package com.vmware.vcloud.api.annotation;
  * #%L
  * vcd-xjc-plugins :: Custom plugins for XML to Java Compilation
  * %%
- * Copyright (C) 2018 VMware, Inc.
+ * Copyright (C) 2018 - 2021 VMware, Inc.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -36,28 +36,26 @@ import java.lang.annotation.Target;
 
 /**
  * This annotation denotes when the specific feature was introduced to the
- * REST-API and if and when it was removed. <p>
- *
- * A feature is present starting from {@link #addedIn()} version inclusive, to
- * {@link #removedIn()} exclusive. <p>
- *
- * This annotation is added automatically to the JAXB generated classes.
+ * REST-API and if and when it was removed. This annotation is added
+ * automatically to the JAXB generated classes.
+ * <p>
+ * The feature is present starting from {@link #addedIn()} version inclusive, to
+ * {@link #removedIn()} exclusive.
+ * </p>
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
 public @interface Supported {
 
+    public static final String VCLOUD_LEGACY_FILTER_PARAM = "vcloud_legacy";
+
     /**
-     * Version in which the feature was added, inclusive.
-     * 
-     * @return a version string
+     * Version in which the feature was added.
      */
     String addedIn();
 
     /**
-     * Version in which the feature was removed, exclusive.
-     * 
-     * @return a version string
+     * Version in which the feature was removed.
      */
     String removedIn() default "";
 }

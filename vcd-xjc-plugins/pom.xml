@@ -10,7 +10,7 @@
   <parent>
     <groupId>com.vmware.vcloud</groupId>
     <artifactId>vcd-api-tooling-parent</artifactId>
-    <version>9.7</version>
+    <version>10.3.0</version>
   </parent>
   <packaging>jar</packaging>
   <name>${project.artifactId} :: Custom plugins for XML to Java Compilation</name>
@@ -29,12 +29,37 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
       <version>2.12.2</version>
-   </dependency>
-
+    </dependency>
+    <dependency>
+      <groupId>javax.ws.rs</groupId>
+      <artifactId>javax.ws.rs-api</artifactId>
+      <version>2.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.7</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-core</artifactId>
+      <version>3.1.11</version>
+    </dependency>
   </dependencies>
+  <build>
+      <plugins>
+	  <plugin>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <configuration>
+                  <encoding>utf8</encoding>
+                  <source>11</source>
+                  <target>11</target>
+              </configuration>
+          </plugin>
+      </plugins>
+  </build>
 </project>

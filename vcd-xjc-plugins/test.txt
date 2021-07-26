@@ -1,0 +1,17 @@
+Test mirror repo for sp-main branch
+Test replace script
+Test without pull
+Test after adding version-change :False
+Test slack notification
+Test reverting sdk-copy-automation floder names changes
+Test schema push branch
+Test schema build with dummy change
+Test 10.3 branch with updated code
+Test cayman pipeline issue of variable.sh file
+Test after removing space before PR title
+Test sandbox build on vcd-sdk-10.3 branch 
+Test sandbox build on sp-main branch reverting
+Test for sandbox build
+Test sdk for sandbox fix 
+Test sdk-automation code pull from sp-main
+

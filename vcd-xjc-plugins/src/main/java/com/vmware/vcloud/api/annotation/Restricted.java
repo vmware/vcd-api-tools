@@ -1,4 +1,4 @@
-package com.vmware.vcloud.api.http.converters;
+package com.vmware.vcloud.api.annotation;
 
 /*-
  * #%L
@@ -29,24 +29,18 @@ package com.vmware.vcloud.api.http.converters;
  * #L%
  */
 
-import javax.xml.bind.JAXBElement;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * A Jackson Mixin that guides serializing {@link JAXBElement}'s as just being the core payload
- * (returned by {@link JAXBElement#getValue() value field of JAXBElement}.
- * <P>
- * De-serializing the payload is handled by {@code VCloudJsonJaxrsProvider}
- * <P>
- * Ref:<A href="https://github.com/FasterXML/jackson-docs/wiki/JacksonMixInAnnotations">Official
- * Jackson MixIn Annotations Documentation</A>
- * <P>
+ * This annotation denotes that the annotated field is potentially restricted. Before writing out or
+ * reading in this field, the API framework should determine if the caller is allowed to see/use the
+ * field.
  */
-@JsonIgnoreProperties(value = { "globalScope", "typeSubstituted", "nil" })
-public abstract class JAXBElementMixIn<T> {
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.FIELD })
+public @interface Restricted {
 
-    @JsonValue
-    public abstract Object getValue();
 }

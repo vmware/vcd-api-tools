@@ -29,7 +29,7 @@ jobs:
       - name: condition checking
         run: |
           VERSION=`echo ${{github.event.pull_request.title}} | cut -d " " -f 4`
-          desc="Pull Request for $VERSION schemas release"
+          desc="Pull Request for $VERSION tools release"
           MASTER_BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
           existed=$(git ls-remote --heads origin ${VERSION})
           echo "$MASTER_BRANCH_NAME"

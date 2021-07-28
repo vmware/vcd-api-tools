@@ -5,6 +5,11 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      GPG_OWNERTRUST: ${{secrets.GPG_OWNERTRUST}}
+      GPG_PASSPHRASE: ${{secrets.GPG_PASSPHRASE}}
+      GPG_SECRET_KEYS: ${{secrets.GPG_SECRET_KEYS}}
+      GPG_EXECUTABLE: gpg
     steps:
     - uses: actions/checkout@v2
     - name: Configure gpg
@@ -12,10 +17,6 @@ jobs:
         gpg --quiet --batch --yes --decrypt --passphrase="$GPG_PASSPHRASE" --output gpg_files.tar ./build-resources/gpg_files.tar.gpg
         tar -f gpg_files.tar -xO gpg-secret-keys | gpg --batch --quiet --import
         tar -f gpg_files.tar -xO gpg-ownertrust | gpg --batch --quiet --import-ownertrust
-      env:
-        GPG_OWNERTRUST: ${{secrets.GPG_OWNERTRUST}}
-        GPG_PASSPHRASE: ${{secrets.GPG_PASSPHRASE}}
-        GPG_SECRET_KEYS: ${{secrets.GPG_SECRET_KEYS}}
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
       with:
@@ -28,5 +29,3 @@ jobs:
       env:
         SONATYPE_USERNAME: ${{secrets.SONATYPE_USERNAME}}
         SONATYPE_PASSWORD: ${{secrets.SONATYPE_PASSWORD}}
-        GPG_EXECUTABLE: gpg
-        GPG_PASSPHRASE: ${{secrets.GPG_PASSPHRASE}}

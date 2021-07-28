@@ -29,7 +29,7 @@ jobs:
       - name: condition checking
         run: |
           VERSION=`echo ${{github.event.pull_request.title}} | cut -d " " -f 4`
-          desc="Pull Request for $VERSION tools release"
+          desc="Pull Request for $VERSION schemas release"
           MASTER_BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
           existed=$(git ls-remote --heads origin ${VERSION})
           echo "$MASTER_BRANCH_NAME"
@@ -45,25 +45,15 @@ jobs:
             git branch
           elif [ "${{ github.event.pull_request.title }}" == "$desc" ];
           then
-            git config --global user.email "sridhar.meesala2000@gmail.com"
             git config --global user.name "${{ github.actor }}"
-            echo "--branchname---"
             git branch
-            echo "---- git pull ----------"
             git pull
-            echo "---- git log -1 --------"
             git log -1
-            echo "---- git checkout --track origin/$VERSION ----"
             git checkout --track origin/$VERSION
-            echo "---- git branch ---------"
             git branch
-            echo "---- git pull -----------"
             git pull
-            echo "----- git log -1 --------"
             git log -1
-            echo "----- git merge origin/$MASTER_BRANCH_NAME ------"
             git reset --hard $MASTER_BRANCH_NAME
-            echo "---- git push ----------"
             git push --force origin $VERSION
           else
             echo "No Branch creation"

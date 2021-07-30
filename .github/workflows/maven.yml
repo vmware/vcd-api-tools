@@ -34,7 +34,6 @@ jobs:
           existed=$(git ls-remote --heads origin ${VERSION})
           echo "$MASTER_BRANCH_NAME"
           echo "$VERSION"
-          echo "$desc"
           echo "${{github.event.pull_request.title}}"
           if [ "${{ github.event.pull_request.title }}" == "$desc" ] && [ -z ${existed} ]; 
           then

@@ -49,3 +49,4 @@ public interface EnumValidator<T extends Supported> extends Serializable {
      */
     void validate(String key, T value);
 }
+

@@ -19,7 +19,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
   Branch-Creation:
-    #this job will only run if the Pull Request has been merged
+    # this job will only run if the Pull Request has been merged
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:

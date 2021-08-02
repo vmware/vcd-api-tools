@@ -4,6 +4,7 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+    types: [ closed ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,4 +18,38 @@ jobs:
       run: mvn license:check-file-header -Dlicense.licenseName=bsd_2 -Dlicense.failOnNotUptodateHeader=true -Dlicense.failOnMissingHeader=true
     - name: Build with Maven
       run: mvn -B package --file pom.xml
-      
+  Branch-Creation:
+    #this job will only run if the PR has been merged
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "title ${{github.event.pull_request.title}}."
+      - name: checkout repository code
+        uses: actions/checkout@v2
+      - name: condition checking
+        run: |
+          VERSION=`echo ${{github.event.pull_request.title}} | cut -d " " -f 4`
+          desc="Pull Request for $VERSION tools release"
+          MASTER_BRANCH_NAME=`git rev-parse --abbrev-ref HEAD`
+          existed=$(git ls-remote --heads origin ${VERSION})
+          echo "$MASTER_BRANCH_NAME"
+          echo "$VERSION"
+          echo "$desc"
+          echo "${{github.event.pull_request.title}}"
+          if [ "${{ github.event.pull_request.title }}" == "$desc" ] && [ -z ${existed} ]; 
+          then
+            git pull
+            git status
+            git checkout -b $VERSION
+            git push -u origin $VERSION
+          elif [ "${{ github.event.pull_request.title }}" == "$desc" ];
+          then
+            git config --global user.name "${{ github.actor }}"
+            git pull
+            git checkout --track origin/$VERSION
+            git pull
+            git reset --hard $MASTER_BRANCH_NAME
+            git push --force origin $VERSION
+          else
+            echo "No Branch creation"
+          fi

@@ -1,2 +1,2 @@
-com.vmware.vcloud.xjcplugin.JsonMappingInfoPlugin
 com.vmware.vcloud.xjcplugin.RestApiVersionsPlugin
+com.vmware.vcloud.xjcplugin.RestApiJsonBindingsPlugin

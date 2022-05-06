@@ -5,7 +5,7 @@ package com.vmware.vcloud.bindings.generator.python;
  * #%L
  * vcd-bindings-generator :: Bindings generation utility
  * %%
- * Copyright (C) 2020 VMware, Inc.
+ * Copyright (C) 2022 VMware, Inc.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:

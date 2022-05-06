@@ -1,8 +1,25 @@
-.project
-.classpath
-.settings/
-.vscode/
 
+# System specific odd files.
+*~
+._.*
+.DS_Store
+
+# Eclipse project stuff
+.classpath
+.project
+.settings/
+.springBeans
+
+# IntelliJ IDEA project stuff
+*.iml
+*.ipr
+*.iws
+**/.idea/
+
+# Eclipse will also try to modify lauchers whenever it can. We mark them
+# ignored here for conveniance. If ever you want to check in a true modification
+# to one of the launchers just git add it.
+*.launch
+
+# intermediate build results live in 'target' directories all over the place.
 target/
-.m2/
-.mvn/

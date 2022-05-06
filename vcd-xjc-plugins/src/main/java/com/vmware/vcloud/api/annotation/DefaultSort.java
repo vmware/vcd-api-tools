@@ -1,20 +1,18 @@
-package com.vmware.vcloud.api.rest.links;
-
 /*-
  * #%L
  * vcd-xjc-plugins :: Custom plugins for XML to Java Compilation
  * %%
- * Copyright (C) 2018 VMware, Inc.
+ * Copyright (C) 2022 VMware, Inc.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -29,14 +27,30 @@ package com.vmware.vcloud.api.rest.links;
  * #L%
  */
 
+package com.vmware.vcloud.api.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Represents relation of a link in representational state of a resource to that resource.
+ * This annotation denotes the default field and direction the annotated method can use to determine
+ * how it should sort it's return values in the case when the caller has not provided this
+ * information.
  */
-public interface LinkRelation {
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.METHOD })
+public @interface DefaultSort {
 
     /**
-     * @return the value of {@code rel} attribute of {@code LinkType} element.
+     * Default field to be used when sorting results.
      */
-    String value();
+    String defaultSortField();
+
+    /**
+     * Determines direction of sort, ascending if "true".
+     */
+    boolean sortAscending();
+
 }

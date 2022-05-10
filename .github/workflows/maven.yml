@@ -17,5 +17,5 @@ jobs:
     - name: Check source license headers
       run: mvn license:check-file-header -Dlicense.licenseName=bsd_2 -Dlicense.failOnNotUptodateHeader=true -Dlicense.failOnMissingHeader=true
     - name: Build with Maven
-      run: mvn -B package --file pom.xml
+      run: mvn -B package --file pom.xml -Dmaven.javadoc.skip=true
       

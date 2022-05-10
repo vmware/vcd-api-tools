@@ -37,9 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
-
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
@@ -79,6 +76,9 @@ import com.vmware.vcloud.api.rest.version.ApiVersion;
 import org.apache.commons.lang3.StringUtils;
 import org.jvnet.jaxb2_commons.util.CustomizationUtils;
 import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
+
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 /**
  * <code>RestApiVersionsPlugin</code> is a plug-in for the JAXB's XJC code
@@ -413,10 +413,8 @@ public class RestApiVersionsPlugin extends Plugin {
      * constant of type "public static final String" to the JAXB generated Java
      * and adds a corresponding Java annotation if not empty.
      * class. It reads the "meta:content-type" annotation element in the schema
-     * @param customizations2
-     * @param classOutline
      *
-     * @param implClass the element which will be annotated
+     * @param classOutline the element which will be annotated
      * @param customizations schema customizations for this element
      */
     private void addContentTypeAnnotation(ClassOutline classOutline, CCustomizations customizations) {

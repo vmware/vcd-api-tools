@@ -4,37 +4,55 @@
  Copyright 2018-2022 VMware, Inc.
  SPDX-License-Identifier: BSD-2-Clause
 -->
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <artifactId>vcd-xjc-plugins</artifactId>
-  <parent>
-    <groupId>com.vmware.vcloud</groupId>
-    <artifactId>vcd-api-tooling-parent</artifactId>
-    <version>10.2.2</version>
-  </parent>
-  <packaging>jar</packaging>
-  <name>${project.artifactId} :: Custom plugins for XML to Java Compilation</name>
-  <description>Custom plugins for XML to Java Compilation</description>
-  <dependencies>
-    <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-xjc</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.jvnet.jaxb2_commons</groupId>
-      <artifactId>jaxb2-basics-tools</artifactId>
-      <version>0.11.1</version>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-annotations</artifactId>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.12.2</version>
-   </dependency>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>vcd-xjc-plugins</artifactId>
+    <parent>
+        <groupId>com.vmware.vcloud</groupId>
+        <artifactId>vcd-api-tooling-parent</artifactId>
+        <version>10.2.2</version>
+    </parent>
+    <packaging>jar</packaging>
+    <name>${project.artifactId} :: Custom plugins for XML to Java Compilation</name>
+    <description>Custom plugins for XML to Java Compilation</description>
+    <dependencies>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-xjc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jvnet.jaxb2_commons</groupId>
+            <artifactId>jaxb2-basics-tools</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-core</artifactId>
+        </dependency>
+    </dependencies>
 
-  </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

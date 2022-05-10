@@ -39,6 +39,7 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.xml.bind.JAXBElement;
 
+import org.apache.commons.lang3.RegExUtils;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.Locator;
 
@@ -262,8 +263,8 @@ public class RestApiJsonBindingsPlugin extends Plugin {
     }
 
     private boolean isGetterNameSafeForJackson(String getter) {
-        final String strippedName = (getter.startsWith("get")) ? StringUtils.removeFirst(getter, "get") :
-                StringUtils.removeFirst(getter, "is");
+        final String strippedName = (getter.startsWith("get")) ? RegExUtils.removeFirst(getter, "get") :
+                RegExUtils.removeFirst(getter, "is");
         return strippedName.length() > 1 ? Character.isLowerCase(strippedName.charAt(1)) : true;
     }
 

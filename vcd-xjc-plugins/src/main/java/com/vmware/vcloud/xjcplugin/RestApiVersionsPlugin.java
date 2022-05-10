@@ -1,20 +1,18 @@
-package com.vmware.vcloud.xjcplugin;
-
 /*-
  * #%L
  * vcd-xjc-plugins :: Custom plugins for XML to Java Compilation
  * %%
- * Copyright (C) 2018 VMware, Inc.
+ * Copyright (C) 2022 VMware, Inc.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- * 
+ *
  * 1. Redistributions of source code must retain the above copyright notice,
  *    this list of conditions and the following disclaimer.
  * 2. Redistributions in binary form must reproduce the above copyright notice,
  *    this list of conditions and the following disclaimer in the documentation
  *    and/or other materials provided with the distribution.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -29,16 +27,29 @@ package com.vmware.vcloud.xjcplugin;
  * #L%
  */
 
+package com.vmware.vcloud.xjcplugin;
+
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import com.sun.codemodel.JAnnotatable;
 import com.sun.codemodel.JAnnotationUse;
+import com.sun.codemodel.JBlock;
+import com.sun.codemodel.JClass;
+import com.sun.codemodel.JClassAlreadyExistsException;
 import com.sun.codemodel.JCodeModel;
 import com.sun.codemodel.JDefinedClass;
 import com.sun.codemodel.JDocComment;
@@ -48,6 +59,7 @@ import com.sun.codemodel.JExpression;
 import com.sun.codemodel.JFieldVar;
 import com.sun.codemodel.JMethod;
 import com.sun.codemodel.JMod;
+import com.sun.codemodel.JPackage;
 import com.sun.tools.xjc.BadCommandLineException;
 import com.sun.tools.xjc.Options;
 import com.sun.tools.xjc.Plugin;
@@ -80,20 +92,22 @@ import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
  * </pre>
  *
  * If <i>default-version</i> is not present "1.5" will be assumed.
+ * </p>
  * <p>
  * To specify annotation values for specific element, you need to add the
  * following to the XSD:
  *
  * <pre>
- * &lt;xs:appinfo&gt;
- *     &lt;meta:version added-in="1.5" removed-in="2.0"/&gt;
- * &lt;/xs:appinfo&gt;
+ * &lt;xs:appinfo>
+ *     &lt;meta:version added-in="1.5" removed-in="2.0"/>
+ * &lt;/xs:appinfo>
  * </pre>
  *
  * If {@code added-in} is missing, the {@code default-version} will be used.<BR>
  * If {@code removed-in} is present, the usages will also be marked as deprecated.<BR>
  * If {@code removed-in} is missing, it won't be included in the generated
  * annotation either.
+ * </p>
  * <p>
  * You also have to add the following boilerplate to the beginning of the XSD:
  *
@@ -103,20 +117,28 @@ import org.jvnet.jaxb2_commons.util.FieldAccessorUtils;
  *   jaxb:verion="2.0"
  *   jaxb:extensionBindingPrefixes="meta"
  * </pre>
+ * </p>
  * <p>
  * The plug-in also supports the content-type annotation:
  * <pre>
- * &lt;xs:appinfo&gt;
- *     &lt;meta:content-type&gt;application/vnd.vmware.vcloud.vApp&lt;/meta:content-type&gt;
- * &lt;/xs:appinfo&gt;
+ * &lt;xs:appinfo>
+ *     &lt;meta:content-type>application/vnd.vmware.vcloud.vApp&lt;/meta:content-type>
+ * &lt;/xs:appinfo>
  * </pre>
  * which adds the {@link ContentType} annotation to the generated java class.
+ * </p>
  * <p>
  * Lastly, the plugin will try to include the name of the source {@code .xsd} file
  * and the approximate line and column numbers in the class javadoc
+ * </p>
  */
 public class RestApiVersionsPlugin extends Plugin {
 
+    private static final String NEWLINE = System.lineSeparator();
+    private static final String ERR_CAPTION = String.format("%s%s%s%s%s",
+            NEWLINE, StringUtils.repeat('>', 5),
+            "Following Elements have specified duplicate content-types, which is not permitted:",
+            StringUtils.repeat('<', 5), NEWLINE);
     private static final String X_ANNOTATION_ADDED_IN = "added-in";
     private static final String X_ANNOTATION_REMOVED_IN = "removed-in";
     private static final String J_ANNOTATION_ADDED_IN = "addedIn";
@@ -125,8 +147,13 @@ public class RestApiVersionsPlugin extends Plugin {
     private static final String ELEMENT_VERSION = "version";
     private static final String ELEMENT_CONTENT_TYPE = "content-type";
     private static final String PLUGIN_OPTION = "Xrest-api";
+    private static final String SKIP_MEDIATYPE_GEN = "-skipMediaTypeGen";
     private static final String CONTENT_TYPE_CONST = "CONTENT_TYPE";
     private String version = "1.5";
+
+    private final Map<JFieldVar, JDefinedClass> MEDIATYPE_TYPE_MAP = new HashMap<>();
+    private final MultivaluedMap<String, ClassOutline> CONTENTTYPE_TYPES_MAP = new MultivaluedHashMap<>();
+    boolean genMediaTypeInfo = true;
 
     @Override
     public String getOptionName() {
@@ -135,24 +162,16 @@ public class RestApiVersionsPlugin extends Plugin {
 
     @Override
     public int parseArgument(Options opt, String[] args, int i) throws BadCommandLineException, IOException {
-        if (!args[i].equals("-Xrest-api")) {
-            return super.parseArgument(opt, args, i);
+        if (SKIP_MEDIATYPE_GEN.equals(args[i])) {
+            genMediaTypeInfo = false;
+            return 1;
         }
-
-        final String rxVersion = "\\w+(\\.\\d+)*";
-
-        final int j = i + 1;
-        if (j < args.length && args[j].matches(rxVersion)) {
-            version = args[j];
-            return 2;
-        }
-
-        return 1;
+        return 0;
     }
 
     @Override
     public List<String> getCustomizationURIs() {
-        ArrayList<String> res = new ArrayList<String>(1);
+        ArrayList<String> res = new ArrayList<>(1);
         res.add(NAMESPACE_URI);
         return res;
     }
@@ -170,7 +189,7 @@ public class RestApiVersionsPlugin extends Plugin {
     }
 
     @Override
-    public boolean run(Outline outline, Options options, ErrorHandler errorHandler) {
+    public boolean run(Outline outline, Options options, ErrorHandler errorHandler) throws SAXException {
         for (CElementInfo elementInfo : outline.getModel().getAllElements()) {
             ElementOutline elementOutline = outline.getElement(elementInfo);
             if (elementOutline != null) {
@@ -186,7 +205,66 @@ public class RestApiVersionsPlugin extends Plugin {
             processEnumOutline(enumOutline, errorHandler);
         }
 
+        /*if (!validateContentTypes(errorHandler)) {
+            return false;
+        }*/
+
+        if (genMediaTypeInfo) {
+            instantiateMediaTypesConstantsClass(outline);
+        }
         return true;
+    }
+
+    private boolean validateContentTypes(ErrorHandler errorHandler) throws SAXException {
+        final StringBuilder errorMsg = new StringBuilder();
+        for (final Entry<String, List<ClassOutline>> entry : CONTENTTYPE_TYPES_MAP.entrySet()) {
+            final List<ClassOutline> types = entry.getValue();
+            if (types.size() > 1) {
+                final List<String> errTypes = new ArrayList<>(types.size());
+                for (final ClassOutline t : types) {
+                    final Locator locator = t.target.getLocator();
+                    final String systemId = locator.getSystemId();
+                    // The following is purely from observation
+                    final String fileSubPath = StringUtils.substringAfterLast(systemId, "etc/");
+                    errTypes.add(String.format("\t%s (%s @ %d:%d)", t.implClass.name(), fileSubPath,
+                            locator.getLineNumber(), locator.getColumnNumber()));
+                }
+
+                errorMsg.append(String.format("%s => [%s%s%s]", entry.getKey(),
+                                NEWLINE, String.join("," + NEWLINE, errTypes), NEWLINE))
+                        .append(NEWLINE);
+            }
+        }
+
+        if (errorMsg.length() > 0) {
+            final String msg = String.format("%s%s", ERR_CAPTION, errorMsg.toString());
+            errorHandler.error(new SAXParseException(msg, null));
+        }
+
+        return errorMsg.length() == 0;
+    }
+
+    private void instantiateMediaTypesConstantsClass(Outline outline) {
+        final JCodeModel codeModel = outline.getCodeModel();
+        final JClass base = codeModel.ref("com.vmware.vcloud.api.rest.constants.VCloudMediaTypesBase");
+        final JPackage _package = codeModel._package("com.vmware.vcloud.api.rest.constants");
+
+        JDefinedClass mediatypesclass;
+        try {
+            mediatypesclass = _package._class(JMod.PUBLIC, "VCloudMediaTypes");
+        } catch (JClassAlreadyExistsException e) {
+            return;
+        }
+
+        mediatypesclass._extends(base);
+        mediatypesclass.constructor(JMod.PUBLIC);
+
+        final JBlock staticBlock = mediatypesclass.init();
+        for (final Entry<JFieldVar, JDefinedClass> entry : MEDIATYPE_TYPE_MAP.entrySet()) {
+            // We have validated that the lists have a single entry
+            final JDefinedClass typeClass = entry.getValue();
+            staticBlock.add(JExpr.invoke("mapContentTypeToClass").arg(typeClass.staticRef(entry.getKey())).arg(typeClass.dotclass()));
+        }
     }
 
     /**
@@ -198,7 +276,7 @@ public class RestApiVersionsPlugin extends Plugin {
     private void processElementOutline(ElementOutline elementOutline, ErrorHandler errorHandler) {
         CCustomizations customizations = CustomizationUtils.getCustomizations(elementOutline);
         addSupportedAnnotation(elementOutline.implClass, customizations);
-        addSourceLocationComment(elementOutline.implClass, customizations);
+        addSourceLocationComment(elementOutline.implClass, elementOutline.target.getLocator());
     }
 
     /**
@@ -212,8 +290,8 @@ public class RestApiVersionsPlugin extends Plugin {
         JDefinedClass implClass = classOutline.implClass;
 
         addSupportedAnnotation(implClass, customizations);
-        addContentTypeAnnotation(implClass, customizations);
-        addSourceLocationComment(implClass, customizations);
+        addContentTypeAnnotation(classOutline, customizations);
+        addSourceLocationComment(implClass, classOutline.target.getLocator());
 
         for (FieldOutline fieldOutline : classOutline.getDeclaredFields()) {
             processFieldOutline(fieldOutline, errorHandler);
@@ -242,7 +320,7 @@ public class RestApiVersionsPlugin extends Plugin {
     private void processEnumOutline(EnumOutline enumOutline, ErrorHandler errorHandler) {
         CCustomizations customizations = CustomizationUtils.getCustomizations(enumOutline);
         addSupportedAnnotation(enumOutline.clazz, customizations);
-        addSourceLocationComment(enumOutline.clazz, customizations);
+        addSourceLocationComment(enumOutline.clazz, enumOutline.target.getLocator());
 
         for (EnumConstantOutline enumConstantOutline : enumOutline.constants) {
             processEnumConstantOutline(enumConstantOutline, errorHandler);
@@ -314,7 +392,6 @@ public class RestApiVersionsPlugin extends Plugin {
         annotation.param(J_ANNOTATION_REMOVED_IN, removedIn);
         annotatable.annotate(Deprecated.class);
         final JDocComment javadoc;
-        final String elementType;
         if (annotatable instanceof JMethod) {
             javadoc = ((JMethod) annotatable).javadoc();
         } else if (annotatable instanceof JFieldVar) {
@@ -331,22 +408,24 @@ public class RestApiVersionsPlugin extends Plugin {
         javadoc.addDeprecated().append(deprecatedCommentMessage);
     }
 
-
     /**
      * This method adds {@link ContentType} annotation and a CONTENT TYPE
      * constant of type "public static final String" to the JAXB generated Java
-     * class. It reads the "meta:content-type" annotation element in the schema
      * and adds a corresponding Java annotation if not empty.
+     * class. It reads the "meta:content-type" annotation element in the schema
+     * @param customizations2
+     * @param classOutline
      *
      * @param implClass the element which will be annotated
      * @param customizations schema customizations for this element
      */
-    private void addContentTypeAnnotation(JDefinedClass implClass, CCustomizations customizations) {
+    private void addContentTypeAnnotation(ClassOutline classOutline, CCustomizations customizations) {
+        JDefinedClass implClass = classOutline.implClass;
         if (implClass == null) {
             return;
         }
 
-        CPluginCustomization customization = customizations.find(NAMESPACE_URI, ELEMENT_CONTENT_TYPE);
+        final CPluginCustomization customization = customizations.find(NAMESPACE_URI, ELEMENT_CONTENT_TYPE);
 
         if (customization == null) {
             return;
@@ -354,54 +433,47 @@ public class RestApiVersionsPlugin extends Plugin {
 
         customization.markAsAcknowledged();
 
-        String contentType = customization.element.getTextContent();
-        if (contentType != null) {
-            JAnnotationUse annotation = implClass.annotate(ContentType.class);
-            annotation.param("value", contentType.trim());
-
-            final JCodeModel codeModel = implClass.owner();
-            JExpression contentTypeConst = JExpr.lit(contentType);
-            @SuppressWarnings("unused")
-            JFieldVar contentTypeField =
-                    implClass.field(JMod.PUBLIC | JMod.STATIC | JMod.FINAL,
-                            codeModel.ref(String.class), CONTENT_TYPE_CONST, contentTypeConst);
+        final String contentType = customization.element.getTextContent();
+        if (contentType == null) {
+            return;
         }
+
+        final JAnnotationUse annotation = implClass.annotate(ContentType.class);
+        annotation.param("value", contentType.trim());
+
+        final JCodeModel codeModel = implClass.owner();
+        final JExpression contentTypeConst = JExpr.lit(contentType);
+
+        final JFieldVar contentTypeField = implClass.field(JMod.PUBLIC | JMod.STATIC | JMod.FINAL,
+                codeModel.ref(String.class), CONTENT_TYPE_CONST, contentTypeConst);
+
+        MEDIATYPE_TYPE_MAP.put(contentTypeField, implClass);
+        CONTENTTYPE_TYPES_MAP.add(contentType.toLowerCase(), classOutline);
     }
 
     /**
-     * This method appends the source file and the approximate line and column numbers to the class
-     * javadoc
+     * This method appends the source file and the approximate line numbers to the class javadoc
      *
      * @param implClass
      *            the class whose comment will be appended.
-     * @param customizations
-     *            schema customizations for this element @
+     * @param locator
+     *            {@link Locator} element for this class
      */
-    private void addSourceLocationComment(JDefinedClass implClass, CCustomizations customizations) {
-        if (implClass == null) {
+    private void addSourceLocationComment(JDefinedClass implClass, Locator locator) {
+        if (implClass == null || locator == null) {
             return;
         }
-
-        CPluginCustomization customization = customizations.find(NAMESPACE_URI, ELEMENT_CONTENT_TYPE);
-
-        if (customization == null) {
-            return;
-        }
-        customization.markAsAcknowledged();
-
-        final Locator locator = customization.locator;
 
         final String source = StringUtils.defaultString(locator.getSystemId());
         final String filename = StringUtils.substringAfterLast(source, "/");
 
         final int lineNumber = locator.getLineNumber();
-        final int columnNumber = locator.getColumnNumber();
 
         implClass.javadoc()
-                .append(System.lineSeparator())
+                .append(NEWLINE)
                 .append("<p>")
-                .append(System.lineSeparator())
-                .append(MessageFormat.format("Schema file: {0}<br>{1}Approximate line and column {2,number,#}:{3,number,#}",
-                        filename, System.lineSeparator(), lineNumber, columnNumber));
+                .append(NEWLINE)
+                .append(MessageFormat.format("Schema file: {0}<br>{1}Approximate line: {2,number,#}",
+                        filename, NEWLINE, lineNumber));
     }
 }

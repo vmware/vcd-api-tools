@@ -27,22 +27,24 @@
  * #L%
  */
 
-package com.vmware.vcloud.api.rest.version;
+package com.vmware.vcloud.api.annotation;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * This interface defines when an item was added and if and when it was removed.
- *
- * @since 5.1
+ * Indicates properties that are not explicitly contained in the model object, but can be
+ * used to filter a query on the model object.
  */
-public interface Supported {
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.TYPE, ElementType.METHOD })
+public @interface CrossReferences {
     /**
-     * @return the {@link ApiVersion} of when the item appeared first.
+     * The alias name for the cross referenced property.
+     *
+     * E.g: computePolicyType in OrgVdc that refers to policyType in VdcComputePolicy
      */
-    ApiVersion getAddedIn();
-
-    /**
-     * @return the {@link ApiVersion} of when the item was removed.
-     */
-    ApiVersion getRemovedIn();
+    String[] aliases();
 }

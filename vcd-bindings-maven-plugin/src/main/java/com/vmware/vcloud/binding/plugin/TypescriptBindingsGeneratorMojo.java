@@ -4,7 +4,7 @@ package com.vmware.vcloud.binding.plugin;
  * #%L
  * vcd-bindings-maven-plugin :: Maven plugin wrapper for bindings generation utility
  * %%
- * Copyright (C) 2018 VMware, Inc.
+ * Copyright (C) 2022 VMware, Inc.
  * %%
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:

@@ -56,7 +56,7 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
 
     private static final String FUTURE_VERSION_ALIAS = "";
 
-    private static final Comparator<String> VERSION_STRING_COMPARATOR = new Comparator<>() {
+    private static final Comparator<String> VERSION_STRING_COMPARATOR = new Comparator<String>() {
         private final Function<String, int[]> split = s -> {
             final String[] tokens = s.split("\\.");
             if (tokens.length > 2) {

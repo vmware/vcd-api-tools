@@ -26,7 +26,7 @@ jobs:
         server-username: SONATYPE_USERNAME
         server-password: SONATYPE_PASSWORD
     - name: Publish packages
-      run: mvn -Prelease --settings build-resources/release-settings.xml deploy
+      run: mvn -Prelease -Dmaven.javadoc.skip=true --settings build-resources/release-settings.xml deploy
       env:
         SONATYPE_USERNAME: ${{secrets.SONATYPE_USERNAME}}
         SONATYPE_PASSWORD: ${{secrets.SONATYPE_PASSWORD}}

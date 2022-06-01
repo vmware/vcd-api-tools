@@ -54,26 +54,33 @@ public @interface MultiSite {
     /**
      * Specifies the list of collection names in a {@link JAXBElement} type that should be merged to
      * create a multi-site response. i.e. the contents of independent response objects from multiple
-     * associated Org endpoints will be merged into a single collection in the response object
+     * associated Org endpoints will be merged into a single collection in the response object.
+     *
+     * @return the list of collection names in a {@link JAXBElement} type that should be merged to
+     * create a multi-site response.
      */
     String[] mergeCollections() default {};
 
     /**
      * Specifies a custom class to use to build a multi-site response object. If none specified, a
      * default multi-site response builder will be used to construct a multi-site response for the
-     * request. Any mrgeCollections value is ignored if a custom response builder is specified
+     * request. Any mergeCollections value is ignored if a custom response builder is specified.
+     *
+     * @return the custom builder class.
      */
     Class<?> customResponseBuilder() default Object.class;
 
     /**
      * Specifies an {@link ApiVersion.Alias} to add support for multi-site request fanout. If none
      * specified, a default {@code ApiVersion.Alias.MULTI_SITE} is used
+     * @return the resulting ApiVersion
      */
     ApiVersion.Alias addedIn() default ApiVersion.Alias.MULTI_SITE;
 
     /**
      * Specifies an {@link ApiVersion.Alias} to remove support for multi-site request fanout. If
-     * none specified, a default {@code ApiVersion.Alias.FUTURE} is used
+     * none specified, a default {@code ApiVersion.Alias.FUTURE} is used.
+     * @return the resulting ApiVersion
      */
     ApiVersion.Alias removedIn() default ApiVersion.Alias.FUTURE;
 }

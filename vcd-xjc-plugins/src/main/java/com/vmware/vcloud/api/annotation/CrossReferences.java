@@ -42,9 +42,11 @@ import java.lang.annotation.Target;
 @Target({ ElementType.TYPE, ElementType.METHOD })
 public @interface CrossReferences {
     /**
-     * The alias name for the cross referenced property.
+     * The alias name for the cross-referenced property.
      *
      * E.g: computePolicyType in OrgVdc that refers to policyType in VdcComputePolicy
+     *
+     * @return the alias name for the cross-referenced property.
      */
     String[] aliases();
 }

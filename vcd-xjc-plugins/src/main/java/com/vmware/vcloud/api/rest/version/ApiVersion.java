@@ -529,8 +529,8 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
     /**
      * Checks if the current version is in range [min..max).
      *
-     * @param min
-     * @param max
+     * @param min the minimum version, included.
+     * @param max the maximum version, excluded.
      * @return {@code true} if min &lt;= this &lt; max
      */
     public boolean isInRange(final ApiVersion min, final ApiVersion max) {
@@ -609,6 +609,8 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
     }
 
     /**
+     * @param supported the supported range.
+     *
      * @return {@code true} if this version falls within the supported range
      * of the {@link Supported} annotation (including if no range is provided)
      */
@@ -670,7 +672,7 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
      * Returns the ApiVersion preceding the given ApiVersion intended for use only for ApiVersion
      * 29.0 and above.
      *
-     * @param apiVersion
+     * @param apiVersion the given version.
      * @return ApiVersion preceding given version.
      * @throws UnsupportedOperationException
      *             for ApiVersion 28.0 and below

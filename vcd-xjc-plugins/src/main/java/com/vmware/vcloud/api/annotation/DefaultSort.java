@@ -45,11 +45,15 @@ public @interface DefaultSort {
 
     /**
      * Default field to be used when sorting results.
+     *
+     * @return the default field to sort.
      */
     String defaultSortField();
 
     /**
      * Determines direction of sort, ascending if "true".
+     *
+     * @return true if ascending sort, false otherwise.
      */
     boolean sortAscending();
 

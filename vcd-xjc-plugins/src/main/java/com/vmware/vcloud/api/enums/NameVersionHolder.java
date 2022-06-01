@@ -50,9 +50,9 @@ public class NameVersionHolder<T extends Supported> {
     /**
      * Associate the <code>key</code> string with the given <code>typeValue</code>.
      *
-     * @param key
-     * @param typeValue
-     * @return
+     * @param key the key to associate.
+     * @param typeValue the value to associate the key with.
+     * @return the result of the operation.
      */
     public final T put(String key, T typeValue) {
         return cachedValues.put(key, typeValue);

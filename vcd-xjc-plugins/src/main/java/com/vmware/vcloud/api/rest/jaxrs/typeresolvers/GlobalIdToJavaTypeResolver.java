@@ -87,7 +87,7 @@ public final class GlobalIdToJavaTypeResolver extends MinimalClassNameIdResolver
     public String idFromValue(Object value) {
         if (value instanceof JAXBElement) {
             return (((JAXBElement<?>) value).getDeclaredType().getSimpleName());
-            //TODO enhance to scan for JsonTypeName annotations: https://jira.eng.vmware.com/browse/VTEN-3181
+            //TODO enhance to scan for JsonTypeName annotations
         } else {
             return super.idFromValue(value);
         }

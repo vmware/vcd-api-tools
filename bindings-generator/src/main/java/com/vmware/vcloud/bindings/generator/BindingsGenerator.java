@@ -52,6 +52,7 @@ import java.util.stream.Stream;
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlType;
 
+import com.vmware.vcloud.api.annotation.Supported;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -60,10 +61,14 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.aspectj.TypePatternClassFilter;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.core.type.filter.AssignableTypeFilter;
+import org.springframework.core.type.filter.RegexPatternTypeFilter;
+import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.util.ClassUtils;
 
 import com.beust.jcommander.JCommander;
@@ -87,10 +92,11 @@ public class BindingsGenerator {
         }
     }
 
-    private static final Set<AnnotationTypeFilter> FILTERS = new HashSet<>();
+    private static final Set<TypeFilter> FILTERS = new HashSet<>();
     static {
         FILTERS.add(new AnnotationTypeFilter(XmlType.class));
         FILTERS.add(new AnnotationTypeFilter(XmlEnum.class));
+        FILTERS.add(new AnnotationTypeFilter(Supported.class));
     };
 
     public static void main(String... args) {

@@ -42,9 +42,6 @@ import com.vmware.vcloud.api.annotation.Supported;
 
 /**
  * API version and alias handling.
- * <p>
- * See https://confluence.eng.vmware.com/pages/viewpage.action?spaceKey=VCD&amp;title=API+Development+Guide#APIDevelopmentGuide-APIVersions
- * for details related to API versioning
  *
  * @since 1.5.0
  */
@@ -52,13 +49,12 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String ALPHA_VERSION_TAIL = ".0-alpha";
-
+    private static final String ALPHA_VERSION_TAIL = "-alpha";
     private static final String FUTURE_VERSION_ALIAS = "";
 
     private static final Comparator<String> VERSION_STRING_COMPARATOR = new Comparator<String>() {
         private final Function<String, int[]> split = s -> {
-            final String[] tokens = s.split("\\.");
+            final String[] tokens = s.split(ALPHA_VERSION_TAIL)[0].split("\\.");
             if (tokens.length > 2) {
                 throw new AssertionError("Comparator must be updated to handle x.y.z");
             }
@@ -92,27 +88,26 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
      * <p>
      * When adding a version corresponding to a new product version (i.e. not a
      * patch) you will typically want to <i>also</i> deprecate the API version(s)
-     * corresponding to the oldest non-deprecated product version. See above-linked
-     * confluence for further guidance.
+     * corresponding to the oldest non-deprecated product version.
      */
 
-    /** Introduced in product version 1.0 / Redwood */
+    /** Introduced in product version 1.0 */
     @Deprecated
     public static final ApiVersion VERSION_1_0 = new ApiVersion(1, 0, true);
 
-    /** Introduced in product version 1.5 / Toledo */
+    /** Introduced in product version 1.5 */
     @Deprecated
     public static final ApiVersion VERSION_1_5 = new ApiVersion(1, 5, true);
 
-    /** Introduced in product version 5.1 / T2 */
+    /** Introduced in product version 5.1 */
     @Deprecated
     public static final ApiVersion VERSION_5_1 = new ApiVersion(5, 1, true);
 
-    /** Introduced in product version 5.5 / OP */
+    /** Introduced in product version 5.5 */
     @Deprecated
     public static final ApiVersion VERSION_5_5 = new ApiVersion(5, 5, true);
 
-    /** Introduced in product version 5.6 / Northstar */
+    /** Introduced in product version 5.6 */
     @Deprecated
     public static final ApiVersion VERSION_5_6 = new ApiVersion(5, 6, true);
 
@@ -212,7 +207,7 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
     @Deprecated
     public static final ApiVersion VERSION_26_0 = new ApiVersion(26, 0, true);
 
-    /** Introduced in product version Sunglow (8.20) */
+    /** Introduced in product version 8.20 */
     @Deprecated
     public static final ApiVersion VERSION_27_0 = new ApiVersion(27, 0, true);
 
@@ -220,76 +215,51 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
     @Deprecated
     public static final ApiVersion VERSION_28_0 = new ApiVersion(28, 0, true);
 
-    /** Introduced in product version Trifecta (9.0) **/
+    /** Introduced in product version 9.0 **/
     @Deprecated
     public static final ApiVersion VERSION_29_0 = new ApiVersion(29, 0, true);
 
-    /** Introduced in product version Ulysses (9.1) **/
+    /** Introduced in product version 9.1 **/
     @Deprecated
     public static final ApiVersion VERSION_30_0 = new ApiVersion(30, 0, true);
 
-    /** Introduced in product version Vulcan (9.5) **/
+    /** Introduced in product version 9.5 **/
     @Deprecated
     public static final ApiVersion VERSION_31_0 = new ApiVersion(31, 0, true);
 
-    /** Introduced in product version Wellington (9.7) **/
+    /** Introduced in product version 9.7 **/
     @Deprecated
-    public static final ApiVersion VERSION_32_0 = new ApiVersion(32, 0, true);
+    public static final ApiVersion VERSION_32_0 = new ApiVersion(32, 0);
 
-    /** Introduced in product version Xendi (10.0) **/
-    @Deprecated
-    public static final ApiVersion VERSION_33_0 = new ApiVersion(33, 0, true);
+    /** Introduced in product version 10.0 **/
+    public static final ApiVersion VERSION_33_0 = new ApiVersion(33, 0);
 
-    /** Introduced in product version Yorktown (10.1) **/
-    @Deprecated
-    public static final ApiVersion VERSION_34_0 = new ApiVersion(34, 0, true);
+    /** Introduced in product version 10.1 **/
+    public static final ApiVersion VERSION_34_0 = new ApiVersion(34, 0);
 
-    /** Introduced in product version Zeus (10.2) **/
-    @Deprecated
-    public static final ApiVersion VERSION_35_0 = new ApiVersion(35, 0, true);
+    /** Introduced in product version 10.2 **/
+    public static final ApiVersion VERSION_35_0 = new ApiVersion(35, 0);
 
-    /** Zeus update 2 **/
-    @Deprecated
-    public static final ApiVersion VERSION_35_2 = new ApiVersion(35, 2, true);
+    /** Introduced in product version 10.2.2 **/
+    public static final ApiVersion VERSION_35_2 = new ApiVersion(35, 2);
 
-    /** Product version Andromeda **/
-    public static final ApiVersion VERSION_36_0 = new ApiVersion(36, 0);
-
-    /** Product version Andromeda update 1 **/
-    public static final ApiVersion VERSION_36_1 = new ApiVersion(36, 1);
-
-    /** Product version Andromeda update 2 **/
-    public static final ApiVersion VERSION_36_2 = new ApiVersion(36, 2);
-
-    /** Product version Andromeda update 3 **/
-    public static final ApiVersion VERSION_36_3 = new ApiVersion(36, 3);
-
-    /** Product version Betelgeuse **/
-    public static final ApiVersion VERSION_37_0 = new ApiVersion(37, 0);
-
-    /** Product version 'C' (TBD) **/
-    public static final ApiVersion VERSION_38_0 = new ApiVersion(38, 0);
-
-    /** Represents a hypothetical future version greater than all existing supported versions **/
-    public static final ApiVersion VERSION_FUTURE = new ApiVersion(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    public static final ApiVersion VERSION_MAX = new ApiVersion(Integer.MAX_VALUE, Integer.MAX_VALUE);
 
     /**
      * This enum will help manage all API version alias mappings.
      */
     public enum Alias {
-        MIN_SUPPORTED(ApiVersion.VERSION_33_0),
-        ALPHA(getAlphaVersion()),
-        FUTURE(ApiVersion.VERSION_FUTURE),
-        DEV_FEATURE_OFF_VERSION(ApiVersion.VERSION_FUTURE),
+        MIN_SUPPORTED(ApiVersion.VERSION_30_0),
         OBJECT_EXTENSIBILITY(ApiVersion.VERSION_16_0),
         VM_AFFINITY_RULES(ApiVersion.VERSION_20_0),
-        MAX_SUPPORTED(ApiVersion.VERSION_37_0),
+        MAX_SUPPORTED(ApiVersion.VERSION_35_2),
         VAPP_AUTO_NATURE(ApiVersion.VERSION_22_0),
         VDC_ADOPT_RP(ApiVersion.VERSION_22_0),
         PERSIST_TABLE_ACCESS(ApiVersion.VERSION_22_0),
         VDC_PERMISSIONS(ApiVersion.VERSION_11_0),
         OPTIMIZED_REVERT_VAPP_WORKFLOW(ApiVersion.VERSION_14_0),
         VDC_TEMPLATES(ApiVersion.VERSION_5_7),
+        FUTURE(ApiVersion.VERSION_MAX),
         ORG_RIGHTS_ROLES(ApiVersion.VERSION_27_0),
         MULTI_SITE(ApiVersion.VERSION_29_0),
         VM_HOST_AFFINITY(ApiVersion.VERSION_27_0),
@@ -374,36 +344,11 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
         PVDC_INHERITABLE_SETTINGS(ApiVersion.VERSION_35_0),
         VDC_KUBERNETES_POLICY(ApiVersion.VERSION_35_0),
         FILTER_ENCODED_REMOVED(ApiVersion.VERSION_35_0),
-        HOST_NUM_CPU(ApiVersion.VERSION_35_2),
-        CPOM_ANDROMEDA(ApiVersion.VERSION_36_0),
-        OAUTH_PROVIDER_CONFIG(ApiVersion.VERSION_36_0),
-        LDAP_SYNC_FLAG(ApiVersion.VERSION_35_2),
-        ALLOWED_ORIGINS(ApiVersion.VERSION_36_0),
-        SITE_DB_COLLATION(ApiVersion.VERSION_36_0),
-        DISK_MIGRATION(ApiVersion.VERSION_36_0),
         STORAGE_ENTITY_TYPE_LIMITING(ApiVersion.VERSION_35_2),
         ETAG_SUPPORT(ApiVersion.VERSION_35_2),
+        HOST_NUM_CPU(ApiVersion.VERSION_35_2),
         FIPS(ApiVersion.VERSION_35_2),
-        TAG(ApiVersion.VERSION_36_0),
-        RDE_HOOKS(ApiVersion.VERSION_36_0),
-        RDE_UPGRADE(ApiVersion.VERSION_36_0),
-        LEGACY_LOGIN_REMOVAL(getAlphaVersion()),
-        K8S_UNIFIED(getAlphaVersion()),
-        METADATA(getAlphaVersion()),
-        VGPU_SUPPORT(ApiVersion.VERSION_36_2),
-        TEST_DEV1(DEV_FEATURE_OFF_VERSION.getMapping()),
-        TEST_DEV2(DEV_FEATURE_OFF_VERSION.getMapping()),
-        COMPUTE_VGPU_SUPPORT(ApiVersion.VERSION_36_2),
-        SEGMENT_PROFILE_TEMPLATES(ApiVersion.VERSION_36_2),
-        ORG_VDC_VPN_GROUP(DEV_FEATURE_OFF_VERSION.getMapping()),
-        API_TOKENS(ApiVersion.VERSION_36_1),
-        BRANDING_THEME(ApiVersion.VERSION_37_0),
-        SERVICE_ACCOUNTS(DEV_FEATURE_OFF_VERSION.getMapping()),
-        OIDC_KEY_ROTATION(ApiVersion.VERSION_36_2),
-        MODIFY_NSXT_MANAGER_DEPLOYMENT_TYPE(ApiVersion.VERSION_37_0),
-        IP_SPACE_MANAGEMENT(DEV_FEATURE_OFF_VERSION.getMapping()),
-        EDGE_GATEWAY_STATIC_ROUTE(DEV_FEATURE_OFF_VERSION.getMapping()),
-        PROVIDER_VDC_MERGE_CANDIDATES(ApiVersion.VERSION_37_0),
+        LDAP_SYNC_FLAG(ApiVersion.VERSION_35_2),
         ;
 
         private final ApiVersion mapping;
@@ -437,7 +382,7 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
 
     private final int minorVersion;
 
-    private Boolean isAlpha = null;
+    private final Boolean isAlpha = null;
 
     private ApiVersion(int majorVersion, int minorVersion) {
         this(majorVersion, minorVersion, false);
@@ -456,11 +401,8 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
         }
     }
 
-    public boolean isAlpha() {
-        if (isAlpha == null) {
-            isAlpha = VERSIONS.lastKey().equals(this.version);
-        }
-        return isAlpha;
+    private boolean isAlpha() {
+        return false;
     }
 
     /**
@@ -486,27 +428,16 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
      * @throws IllegalArgumentException if the version is not recognized
      */
     public static ApiVersion fromValue(String v) {
-        if (v == null || FUTURE_VERSION_ALIAS.equals(v)) {
-            return VERSION_FUTURE;
+        if (FUTURE_VERSION_ALIAS.equals(v)) {
+            return VERSION_MAX;
         }
-
-        final String ver;
-        if (v.contains(ALPHA_VERSION_TAIL)) {
-            /* Strip out anything after the Alpha tail (this may include a build
-             * identifier but such information is only for consumer's benefit, not
-             * for limiting compatibility across alpha requests). */
-            ver = v.replaceFirst(ALPHA_VERSION_TAIL + ".*", ALPHA_VERSION_TAIL);
-        } else {
-            ver = v;
-        }
-
-        if (!ApiVersionCacheHelper.instance.isCached(ver)) {
-            if (!ApiVersionCacheHelper.instance.isAliasCached(ver)) {
-                throw new IllegalArgumentException("Unknown API version: " + ver);
+        if (!ApiVersionCacheHelper.instance.isCached(v)) {
+            if (!ApiVersionCacheHelper.instance.isAliasCached(v)) {
+                throw new IllegalArgumentException("Unknown API version: " + v);
             }
-            return ApiVersionCacheHelper.instance.getAliasValue(ver);
+            return ApiVersionCacheHelper.instance.getAliasValue(v);
         }
-        return ApiVersionCacheHelper.instance.getValue(ver);
+        return ApiVersionCacheHelper.instance.getValue(v);
     }
 
     public static boolean isValidApiVersion(String v) {
@@ -529,8 +460,8 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
     /**
      * Checks if the current version is in range [min..max).
      *
-     * @param min the minimum version, included.
-     * @param max the maximum version, excluded.
+     * @param min Min version in range, included
+     * @param max Max version in range, excluded
      * @return {@code true} if min &lt;= this &lt; max
      */
     public boolean isInRange(final ApiVersion min, final ApiVersion max) {
@@ -597,20 +528,7 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
     }
 
     /**
-     * Tests if this {@code ApiVersion} is less than the given ${@code ApiVersion.Alias}.
-     *
-     * @param alias
-     *            the alias to compare this version to
-     * @return true if this {@code ApiVersion} is less than {@code alias}, false
-     *         otherwise
-     */
-    public boolean isLessThan(final Alias alias) {
-        return isLessThan(alias.getMapping());
-    }
-
-    /**
-     * @param supported the supported range.
-     *
+     * @param supported The supported version
      * @return {@code true} if this version falls within the supported range
      * of the {@link Supported} annotation (including if no range is provided)
      */
@@ -650,7 +568,7 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
      * @return List of ApiVersion
      */
     public static List<ApiVersion> getRange(final ApiVersion minApiVersion,
-            final ApiVersion maxApiVersion) {
+                                            final ApiVersion maxApiVersion) {
         return VERSIONS.values().stream()
                 .filter(api -> api.isAtLeast(minApiVersion) && api.isAtMost(maxApiVersion))
                 .collect(Collectors.toList());
@@ -672,7 +590,7 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
      * Returns the ApiVersion preceding the given ApiVersion intended for use only for ApiVersion
      * 29.0 and above.
      *
-     * @param apiVersion the given version.
+     * @param apiVersion The API version to get the previous from
      * @return ApiVersion preceding given version.
      * @throws UnsupportedOperationException
      *             for ApiVersion 28.0 and below
@@ -702,6 +620,10 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
             return 1;
         }
 
+        if (this.isAlpha() ^ other.isAlpha()) {
+            return (this.isAlpha()) ? 1 : -1;
+        }
+
         if (this.majorVersion == other.majorVersion) {
             return Integer.compare(this.minorVersion, other.minorVersion);
         }
@@ -714,12 +636,8 @@ public class ApiVersion implements Comparable<ApiVersion>, Serializable {
         return value();
     }
 
-    public static ApiVersion getAlphaVersion() {
-        return VERSIONS.lastEntry().getValue();
-    }
-
     public static ApiVersion[] values() {
-        return VERSIONS.values().toArray(new ApiVersion[0]);
+        return VERSIONS.values().toArray(new ApiVersion[VERSIONS.size()]);
     }
 
     public static ApiVersion valueOf(String apiVersion) {

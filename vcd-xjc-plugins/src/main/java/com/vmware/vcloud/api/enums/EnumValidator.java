@@ -44,8 +44,8 @@ public interface EnumValidator<T extends Supported> extends Serializable {
     /**
      * Perform validation on the key and value pair
      *
-     * @param key
-     * @param value
+     * @param key the key to validate.
+     * @param value the value to validate.
      */
     void validate(String key, T value);
 }

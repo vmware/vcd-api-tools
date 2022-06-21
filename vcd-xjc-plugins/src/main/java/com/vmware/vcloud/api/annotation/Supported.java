@@ -50,12 +50,12 @@ public @interface Supported {
     public static final String VCLOUD_LEGACY_FILTER_PARAM = "vcloud_legacy";
 
     /**
-     * Version in which the feature was added.
+     * @return the version in which the feature was added.
      */
     String addedIn();
 
     /**
-     * Version in which the feature was removed.
+     * @return the version in which the feature was removed
      */
     String removedIn() default "";
 }

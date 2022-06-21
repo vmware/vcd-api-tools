@@ -42,7 +42,6 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * <P>
  * Ref:<A href="https://github.com/FasterXML/jackson-docs/wiki/JacksonMixInAnnotations">Official
  * Jackson MixIn Annotations Documentation</A>
- * <P>
  */
 @JsonIgnoreProperties(value = { "globalScope", "typeSubstituted", "nil" })
 public abstract class JAXBElementMixIn<T> {
